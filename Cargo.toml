@@ -4,3 +4,4 @@ version = "0.1.0"
 authors = ["Christopher J. Woodall <chris.j.woodall@gmail.com>"]
 
 [dependencies]
+sysfs_gpio = "0.4"
