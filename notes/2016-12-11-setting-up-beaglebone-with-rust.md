@@ -1,5 +1,13 @@
 **Table of Contents**
+<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
+	- [Basic beaglebone information](#basic-beaglebone-information)
+	- [Setting up wifi](#setting-up-wifi)
+	- [Getting Rust Running on BeagleBone Black](#getting-rust-running-on-beaglebone-black)
+		- [Attempt number 1: rustup](#attempt-number-1-rustup)
+		- [Attempt number 2: Cross compiling](#attempt-number-2-cross-compiling)
+
+<!-- /TOC -->
 ## Basic beaglebone information
 
 ```
@@ -58,6 +66,7 @@ $ curl -sSf https://static.rust-lang.org/rustup.sh | sh
 ```
 
 I get an error when building package... Seems to be a gcc-4 vs gcc-6 error... Updated all things  to stretch... May be a terrible idea.
+
 Partially following: https://strongrandom.com/spi-on-a-beaglebone-black-for-led-domination.html
 
 ### Attempt number 2: Cross compiling

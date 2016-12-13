@@ -1,3 +1,6 @@
+**Table of Contents**
+
+
 # Blinking a LED with Rust
 
 Use `sysfs_gpio`
