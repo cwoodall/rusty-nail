@@ -1,4 +1,5 @@
 extern crate sysfs_gpio;
+extern crate sysfs_pwm;
 
 use sysfs_gpio::{Direction, Pin};
 use std::thread::sleep;

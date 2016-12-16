@@ -1,13 +1,5 @@
 **Table of Contents**
-<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
-	- [Basic beaglebone information](#basic-beaglebone-information)
-	- [Setting up wifi](#setting-up-wifi)
-	- [Getting Rust Running on BeagleBone Black](#getting-rust-running-on-beaglebone-black)
-		- [Attempt number 1: rustup](#attempt-number-1-rustup)
-		- [Attempt number 2: Cross compiling](#attempt-number-2-cross-compiling)
-
-<!-- /TOC -->
 ## Basic beaglebone information
 
 ```
