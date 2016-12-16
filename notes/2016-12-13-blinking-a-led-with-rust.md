@@ -34,9 +34,11 @@ Success!
 
 ![Blinking an LED in Rust](images/test-rust-led-blink.gif)
 
+
 ## Resources
 
 http://rust-embedded.github.io/rust-sysfs-gpio/sysfs_gpio/index.html
+
 
 # Adding racer support to Atom
 ```
@@ -63,3 +65,7 @@ rsync target/arm-unknown-linux-gnueabihf/debug/rusty-nail root@beaglebone.local:
 ssh root@beaglebone.local ./rusty-nail
 ssh root@beaglebone.local pkill -9 rusty-nail
 ```
+
+# Future Items/Resources
+
+Use [toml-rs](https://github.com/alexcrichton/toml-rs) to configure pin mapping for the program.
