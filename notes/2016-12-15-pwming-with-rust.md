@@ -66,6 +66,9 @@ fn main() {
 }
 ```
 
+Note I think using this requires the pwm to be enabled using the capemanager and the pinmux to be set ahead of time.
+
+
 Resources:
 - https://github.com/posborne/rust-sysfs-pwm/blob/master/examples/breathe.rs
 - https://groups.google.com/forum/#!category-topic/beagleboard/gpio/1mkf_s_g0vI
