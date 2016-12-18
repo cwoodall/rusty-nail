@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
+TARGET=arm-unknown-linux-gnueabihf
+
 for i in examples/*; do
-  cargo build --target=arm-unknown-linux-gnueabihf --verbose --example $(basename $i .rs);
+  cargo build --target=$TARGET --verbose --example $(basename $i .rs);
 done
