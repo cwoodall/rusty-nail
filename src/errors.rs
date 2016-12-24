@@ -1,6 +1,6 @@
 pub enum RustyNailError {
     CommunicationFailed,
-    GenericError
+    GenericError,
 }
 
 pub type RustyNailResult<T> = Result<T, RustyNailError>;

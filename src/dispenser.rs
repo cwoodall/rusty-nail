@@ -1,3 +1,6 @@
+//! Testing module level documentation
+//!
+
 use errors::{RustyNailResult, RustyNailError};
 
 /// Defines trait for interfacing to a dispense
@@ -31,32 +34,37 @@ struct TestDispenser {
     name: String,
     pub max_flow_rate: f64,
     pub fluid_level: f64,
-
 }
 
 impl TestDispenser {
     pub fn new(max_flow: f64, fluid_level: f64) -> TestDispenser {
-        TestDispenser{ name: "wow".to_string(),
-        max_flow_rate: max_flow,
-        fluid_level: fluid_level}
+        TestDispenser {
+            name: "wow".to_string(),
+            max_flow_rate: max_flow,
+            fluid_level: fluid_level,
+        }
     }
 }
 
 impl Dispenser for TestDispenser {
     fn max_flow_rate(&self) -> f64 {
-        return self.max_flow_rate
+        self.max_flow_rate
     }
 
     fn set_flow_rate(&mut self, rate: f64) -> RustyNailResult<()> {
         println!("{:?}", rate);
 
-        return Ok(());
+        Ok(())
     }
 
     /// Get the name of beverage being pumped.
-    fn get_name(&self) -> RustyNailResult<&String> { Ok(&self.name) }
+    fn get_name(&self) -> RustyNailResult<&String> {
+        Ok(&self.name)
+    }
 
-    fn set_name(&mut self, new_name: String) { self.name = new_name }
+    fn set_name(&mut self, new_name: String) {
+        self.name = new_name
+    }
 
     /// Set the current liquid level in mL.
     fn set_level(&mut self, level: f64) -> RustyNailResult<()> {
@@ -71,7 +79,7 @@ impl Dispenser for TestDispenser {
 
     /// Dispense some quantity of liquid in mL.
     fn dispense(&mut self, quantity: f64) -> RustyNailResult<f64> {
-        Ok(1.0)
+        Ok(quantity)
     }
 }
 
