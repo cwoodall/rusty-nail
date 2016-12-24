@@ -51,7 +51,7 @@
 </pre><pre class='rust '>
 <span class='kw'>pub</span> <span class='kw'>enum</span> <span class='ident'>RustyNailError</span> {
     <span class='ident'>CommunicationFailed</span>,
-    <span class='ident'>GenericError</span>
+    <span class='ident'>GenericError</span>,
 }
 
 <span class='kw'>pub</span> <span class='kw'>type</span> <span class='ident'>RustyNailResult</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>T</span>, <span class='ident'>RustyNailError</span><span class='op'>&gt;</span>;

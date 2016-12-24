@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["dispenser",""]]});
+initSidebarItems({"mod":[["dispenser","Testing module level documentation"]]});

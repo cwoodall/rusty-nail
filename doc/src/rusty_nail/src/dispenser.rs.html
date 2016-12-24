@@ -126,7 +126,18 @@
 <span id="82">82</span>
 <span id="83">83</span>
 <span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
 </pre><pre class='rust '>
+<span class='doccomment'>//! Testing module level documentation</span>
+<span class='doccomment'>//!</span>
+
 <span class='kw'>use</span> <span class='ident'>errors</span>::{<span class='ident'>RustyNailResult</span>, <span class='ident'>RustyNailError</span>};
 
 <span class='doccomment'>/// Defines trait for interfacing to a dispense</span>
@@ -160,32 +171,37 @@
     <span class='ident'>name</span>: <span class='ident'>String</span>,
     <span class='kw'>pub</span> <span class='ident'>max_flow_rate</span>: <span class='ident'>f64</span>,
     <span class='kw'>pub</span> <span class='ident'>fluid_level</span>: <span class='ident'>f64</span>,
-
 }
 
 <span class='kw'>impl</span> <span class='ident'>TestDispenser</span> {
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>max_flow</span>: <span class='ident'>f64</span>, <span class='ident'>fluid_level</span>: <span class='ident'>f64</span>) <span class='op'>-&gt;</span> <span class='ident'>TestDispenser</span> {
-        <span class='ident'>TestDispenser</span>{ <span class='ident'>name</span>: <span class='string'>&quot;wow&quot;</span>.<span class='ident'>to_string</span>(),
-        <span class='ident'>max_flow_rate</span>: <span class='ident'>max_flow</span>,
-        <span class='ident'>fluid_level</span>: <span class='ident'>fluid_level</span>}
+        <span class='ident'>TestDispenser</span> {
+            <span class='ident'>name</span>: <span class='string'>&quot;wow&quot;</span>.<span class='ident'>to_string</span>(),
+            <span class='ident'>max_flow_rate</span>: <span class='ident'>max_flow</span>,
+            <span class='ident'>fluid_level</span>: <span class='ident'>fluid_level</span>,
+        }
     }
 }
 
 <span class='kw'>impl</span> <span class='ident'>Dispenser</span> <span class='kw'>for</span> <span class='ident'>TestDispenser</span> {
     <span class='kw'>fn</span> <span class='ident'>max_flow_rate</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>f64</span> {
-        <span class='kw'>return</span> <span class='self'>self</span>.<span class='ident'>max_flow_rate</span>
+        <span class='self'>self</span>.<span class='ident'>max_flow_rate</span>
     }
 
     <span class='kw'>fn</span> <span class='ident'>set_flow_rate</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>rate</span>: <span class='ident'>f64</span>) <span class='op'>-&gt;</span> <span class='ident'>RustyNailResult</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
         <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>rate</span>);
 
-        <span class='kw'>return</span> <span class='prelude-val'>Ok</span>(());
+        <span class='prelude-val'>Ok</span>(())
     }
 
     <span class='doccomment'>/// Get the name of beverage being pumped.</span>
-    <span class='kw'>fn</span> <span class='ident'>get_name</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>RustyNailResult</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>String</span><span class='op'>&gt;</span> { <span class='prelude-val'>Ok</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>name</span>) }
+    <span class='kw'>fn</span> <span class='ident'>get_name</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>RustyNailResult</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>String</span><span class='op'>&gt;</span> {
+        <span class='prelude-val'>Ok</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>name</span>)
+    }
 
-    <span class='kw'>fn</span> <span class='ident'>set_name</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>new_name</span>: <span class='ident'>String</span>) { <span class='self'>self</span>.<span class='ident'>name</span> <span class='op'>=</span> <span class='ident'>new_name</span> }
+    <span class='kw'>fn</span> <span class='ident'>set_name</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>new_name</span>: <span class='ident'>String</span>) {
+        <span class='self'>self</span>.<span class='ident'>name</span> <span class='op'>=</span> <span class='ident'>new_name</span>
+    }
 
     <span class='doccomment'>/// Set the current liquid level in mL.</span>
     <span class='kw'>fn</span> <span class='ident'>set_level</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>level</span>: <span class='ident'>f64</span>) <span class='op'>-&gt;</span> <span class='ident'>RustyNailResult</span><span class='op'>&lt;</span>()<span class='op'>&gt;</span> {
@@ -200,7 +216,7 @@
 
     <span class='doccomment'>/// Dispense some quantity of liquid in mL.</span>
     <span class='kw'>fn</span> <span class='ident'>dispense</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>quantity</span>: <span class='ident'>f64</span>) <span class='op'>-&gt;</span> <span class='ident'>RustyNailResult</span><span class='op'>&lt;</span><span class='ident'>f64</span><span class='op'>&gt;</span> {
-        <span class='prelude-val'>Ok</span>(<span class='number'>1.0</span>)
+        <span class='prelude-val'>Ok</span>(<span class='ident'>quantity</span>)
     }
 }
 
