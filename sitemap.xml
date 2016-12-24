@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+    
+    <url>
+     <loc>/</loc>
+     <lastmod>2016-12-24</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+        
+    <url>
+     <loc>/notes/2016-12-11-setting-up-beaglebone-with-rust/</loc>
+     <lastmod>2016-12-24</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/notes/2016-12-13-blinking-a-led-with-rust/</loc>
+     <lastmod>2016-12-24</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/notes/2016-12-15-pwming-with-rust/</loc>
+     <lastmod>2016-12-24</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/notes/2016-12-17-hardware-pumping-seltzer/</loc>
+     <lastmod>2016-12-24</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/notes/2016-12-22-air-pump-test/</loc>
+     <lastmod>2016-12-24</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    
+
+</urlset>

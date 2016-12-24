@@ -1,0 +1,144 @@
+{
+    "docs": [
+        {
+            "location": "/",
+            "text": "Rusty Nail\n\n\n\n\nRusty Nail is a drink making robot which uses a BeagleBone Green with a built-in\nwifi peripheral. The idea is for this platform to use Rust for as much of the\nrobot as possible. The hardware used is not yet documented and still under\nrevision.\n\n\nDevelopment Log\n\n\nI have been keeping a set of development notes in this repository, to see them\nplease see the \nnotes\n folder\n. Below I have listed some useful notes:\n\n\n\n\nSetting up a beaglebone with rust\n\n\nBlinking a LED with Rust\n\n\nBeaglebone, Rust, and PWM chips\n\n\n\n\nCredits\n\n\n\n\nLogo made from combining the following source images:\n\n\nRust Logo\n\n\nA Martini Glass SVG from The Noun Project by \nOliviu Stoian\n under the CC\n     license.",
+            "title": "Index"
+        },
+        {
+            "location": "/#rusty-nail",
+            "text": "Rusty Nail is a drink making robot which uses a BeagleBone Green with a built-in\nwifi peripheral. The idea is for this platform to use Rust for as much of the\nrobot as possible. The hardware used is not yet documented and still under\nrevision.",
+            "title": "Rusty Nail"
+        },
+        {
+            "location": "/#development-log",
+            "text": "I have been keeping a set of development notes in this repository, to see them\nplease see the  notes  folder . Below I have listed some useful notes:   Setting up a beaglebone with rust  Blinking a LED with Rust  Beaglebone, Rust, and PWM chips",
+            "title": "Development Log"
+        },
+        {
+            "location": "/#credits",
+            "text": "Logo made from combining the following source images:  Rust Logo  A Martini Glass SVG from The Noun Project by  Oliviu Stoian  under the CC\n     license.",
+            "title": "Credits"
+        },
+        {
+            "location": "/notes/2016-12-11-setting-up-beaglebone-with-rust/",
+            "text": "Basic beaglebone information\n\n\n$ uname -a\nLinux beaglebone 4.4.9-ti-r25 #1 SMP Thu May 5 23:08:13 UTC 2016 armv7l GNU/Linux\n\n\n\n\nUsing debian Jessie\n\n\nSetting up wifi\n\n\nFirst step was to setup wifi on the Beaglebone Green. First I looked in\n\n/etc/network/interfaces\n which told me to use \nconnmanctl\n. The [arch wiki][https://wiki.archlinux.org/index.php/Connman] had some good instructions which I used:\n\n\nroot@beaglebone:~# connmanctl\nError getting VPN connections: The name net.connman.vpn was not provided by any .service filesconnmanctl>connmanctl> scan wifi\nScan completed for wifi\nconnmanctl> services\n*AO tesla                wifi_2cf7f106045e_7465736c61_managed_psk\n                         wifi_2cf7f106045e_hidden_managed_psk\n    xfinitywifi          wifi_2cf7f106045e_7866696e69747977696669_managed_none\n    Amanda and Jon       wifi_2cf7f106045e_416d616e646120616e64204a6f6e_managed_psk\n    ARRIS-B762           wifi_2cf7f106045e_41525249532d42373632_managed_psk\n    ARRIS-B48A           wifi_2cf7f106045e_41525249532d42343841_managed_psk\n    ARRIS-2C02           wifi_2cf7f106045e_41525249532d32433032_managed_psk\n    XXFSETUP-A984        wifi_2cf7f106045e_58584653455455502d41393834_managed_psk\n    Pignet               wifi_2cf7f106045e_5069676e6574_managed_psk\n    franstein            wifi_2cf7f106045e_6672616e737465696e_managed_psk\n    Persephone           wifi_2cf7f106045e_506572736570686f6e65_managed_psk\n    WENDY                wifi_2cf7f106045e_57454e4459_managed_psk\nconnmanctl> agent on\nAgent registered\nconnmanctl> connect wifi_2cf7f106045e_7465736c61_managed_psk\nPassphrase?\n\n\n\n\nGetting Rust Running on BeagleBone Black\n\n\nAttempt number 1: rustup\n\n\nWe will use \nrustup\n which is a rust toolchain installer similar\nto rvm or virtualenv. On one hand I could do development locally and\nthen deploy, I would rather have a local toolchain on the beaglebone\nas well for tinkering. In the long run I might prefer to push\ncross compiled binaries.\n\n\nFirst lets upgrade:\n\n\n$ sudo apt update\n$ sudo apt upgrade\n\n\n\n\n$ curl -sSf https://static.rust-lang.org/rustup.sh | sh\n\n\n\n\nI get an error when building package... Seems to be a gcc-4 vs gcc-6 error... Updated all things  to stretch... May be a terrible idea.\n\n\nPartially following: https://strongrandom.com/spi-on-a-beaglebone-black-for-led-domination.html\n\n\nAttempt number 2: Cross compiling\n\n\nInstall the arm-unknown-linux-gnueabihf target. On Fedora 25 we can find\nthis in copr:\n\n\nsudo dnf copr enable lantw44/arm-linux-gnueabihf-toolchain\nsudo dnf install arm-linux-gnueabihf-gcc\n\n\n\n\nUsing \nrustup\n we can download and install the arm-unknown-linux-gnueabihf target\n\n\n$rustup target add arm-unknown-linux-gnueabihf\n\n\n\n\nNext we need to add the followign lines to our \n~/.cargo/config\n file:\n\n\n[target.arm-unknown-linux-gnueabihf]\nlinker = \"arm-linux-gnueabihf-gcc\"\n\n\n\n\nNow finally you can:\n\n\n$ cargo new --bin test-on-arm\n$ cd test-on-arm\n$ cargo build --target arm-unknown-linux-gnueabihf\n$ scp target/arm-unknown-linux-gnueabihf/debug/test-on-arm root@beaglebone.local:~\nDebian GNU/Linux 8\n\nBeagleBoard.org Debian Image 2016-05-27\n\nSupport/FAQ: http://elinux.org/Beagleboard:BeagleBoneBlack_Debian\n\ndefault username:password is [debian:temppwd]\n\ntest-on-arm                                                            100% 1578KB   3.4MB/s   00:00\n$ ssh root@beaglebone.local ./test-on-arm\nDebian GNU/Linux 8\n\nBeagleBoard.org Debian Image 2016-05-27\n\nSupport/FAQ: http://elinux.org/Beagleboard:BeagleBoneBlack_Debian\n\ndefault username:password is [debian:temppwd]\n\nHello, world!\n\n\n\n\nThanks to:\nhttps://github.com/andygrove/rust-bbb-experiments\nhttps://fedorahosted.org/copr/wiki/HowToEnableRepo",
+            "title": "Setting Up A Beaglebone With Rust"
+        },
+        {
+            "location": "/notes/2016-12-11-setting-up-beaglebone-with-rust/#basic-beaglebone-information",
+            "text": "$ uname -a\nLinux beaglebone 4.4.9-ti-r25 #1 SMP Thu May 5 23:08:13 UTC 2016 armv7l GNU/Linux  Using debian Jessie",
+            "title": "Basic beaglebone information"
+        },
+        {
+            "location": "/notes/2016-12-11-setting-up-beaglebone-with-rust/#setting-up-wifi",
+            "text": "First step was to setup wifi on the Beaglebone Green. First I looked in /etc/network/interfaces  which told me to use  connmanctl . The [arch wiki][https://wiki.archlinux.org/index.php/Connman] had some good instructions which I used:  root@beaglebone:~# connmanctl\nError getting VPN connections: The name net.connman.vpn was not provided by any .service filesconnmanctl>connmanctl> scan wifi\nScan completed for wifi\nconnmanctl> services\n*AO tesla                wifi_2cf7f106045e_7465736c61_managed_psk\n                         wifi_2cf7f106045e_hidden_managed_psk\n    xfinitywifi          wifi_2cf7f106045e_7866696e69747977696669_managed_none\n    Amanda and Jon       wifi_2cf7f106045e_416d616e646120616e64204a6f6e_managed_psk\n    ARRIS-B762           wifi_2cf7f106045e_41525249532d42373632_managed_psk\n    ARRIS-B48A           wifi_2cf7f106045e_41525249532d42343841_managed_psk\n    ARRIS-2C02           wifi_2cf7f106045e_41525249532d32433032_managed_psk\n    XXFSETUP-A984        wifi_2cf7f106045e_58584653455455502d41393834_managed_psk\n    Pignet               wifi_2cf7f106045e_5069676e6574_managed_psk\n    franstein            wifi_2cf7f106045e_6672616e737465696e_managed_psk\n    Persephone           wifi_2cf7f106045e_506572736570686f6e65_managed_psk\n    WENDY                wifi_2cf7f106045e_57454e4459_managed_psk\nconnmanctl> agent on\nAgent registered\nconnmanctl> connect wifi_2cf7f106045e_7465736c61_managed_psk\nPassphrase?",
+            "title": "Setting up wifi"
+        },
+        {
+            "location": "/notes/2016-12-11-setting-up-beaglebone-with-rust/#getting-rust-running-on-beaglebone-black",
+            "text": "",
+            "title": "Getting Rust Running on BeagleBone Black"
+        },
+        {
+            "location": "/notes/2016-12-11-setting-up-beaglebone-with-rust/#attempt-number-1-rustup",
+            "text": "We will use  rustup  which is a rust toolchain installer similar\nto rvm or virtualenv. On one hand I could do development locally and\nthen deploy, I would rather have a local toolchain on the beaglebone\nas well for tinkering. In the long run I might prefer to push\ncross compiled binaries.  First lets upgrade:  $ sudo apt update\n$ sudo apt upgrade  $ curl -sSf https://static.rust-lang.org/rustup.sh | sh  I get an error when building package... Seems to be a gcc-4 vs gcc-6 error... Updated all things  to stretch... May be a terrible idea.  Partially following: https://strongrandom.com/spi-on-a-beaglebone-black-for-led-domination.html",
+            "title": "Attempt number 1: rustup"
+        },
+        {
+            "location": "/notes/2016-12-11-setting-up-beaglebone-with-rust/#attempt-number-2-cross-compiling",
+            "text": "Install the arm-unknown-linux-gnueabihf target. On Fedora 25 we can find\nthis in copr:  sudo dnf copr enable lantw44/arm-linux-gnueabihf-toolchain\nsudo dnf install arm-linux-gnueabihf-gcc  Using  rustup  we can download and install the arm-unknown-linux-gnueabihf target  $rustup target add arm-unknown-linux-gnueabihf  Next we need to add the followign lines to our  ~/.cargo/config  file:  [target.arm-unknown-linux-gnueabihf]\nlinker = \"arm-linux-gnueabihf-gcc\"  Now finally you can:  $ cargo new --bin test-on-arm\n$ cd test-on-arm\n$ cargo build --target arm-unknown-linux-gnueabihf\n$ scp target/arm-unknown-linux-gnueabihf/debug/test-on-arm root@beaglebone.local:~\nDebian GNU/Linux 8\n\nBeagleBoard.org Debian Image 2016-05-27\n\nSupport/FAQ: http://elinux.org/Beagleboard:BeagleBoneBlack_Debian\n\ndefault username:password is [debian:temppwd]\n\ntest-on-arm                                                            100% 1578KB   3.4MB/s   00:00\n$ ssh root@beaglebone.local ./test-on-arm\nDebian GNU/Linux 8\n\nBeagleBoard.org Debian Image 2016-05-27\n\nSupport/FAQ: http://elinux.org/Beagleboard:BeagleBoneBlack_Debian\n\ndefault username:password is [debian:temppwd]\n\nHello, world!  Thanks to:\nhttps://github.com/andygrove/rust-bbb-experiments\nhttps://fedorahosted.org/copr/wiki/HowToEnableRepo",
+            "title": "Attempt number 2: Cross compiling"
+        },
+        {
+            "location": "/notes/2016-12-13-blinking-a-led-with-rust/",
+            "text": "Blinking a LED with Rust\n\n\nUse \nsysfs_gpio\n\n\nThis following program blinks an LED on and off every 2 seconds\n\n\nextern crate sysfs_gpio;\n\nuse sysfs_gpio::{Direction, Pin};\nuse std::thread::sleep;\nuse std::time::Duration;\n\nfn main() {\n    let my_pin = Pin::new(68);\n    println!(\"{:?}\", my_pin);\n\n    my_pin.with_exported(|| {\n        my_pin.set_direction(Direction::Out).unwrap();\n        loop {\n            my_pin.set_value(0).unwrap();\n            sleep(Duration::from_millis(1000));\n            my_pin.set_value(1).unwrap();\n            sleep(Duration::from_millis(1000));\n        }\n    }).unwrap();\n}\n\n\n\n\nSuccess!\n\n\n\n\nResources\n\n\nhttp://rust-embedded.github.io/rust-sysfs-gpio/sysfs_gpio/index.html\n\n\nAdding racer support to Atom\n\n\nrustup component add rust-src\n\n\n\n\nsudo cargo install racer\n\n\n\n\nSet the following:\n\n\n\n\nbin_dir: \n/home/cwoodall/.cargo/bin/racer\n\n\nsrc_dir: \n/home/cwoodall/.multirust/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/\n\n\noptional cargo dir: \n/home/cwoodall/.cargo\n\n\n\n\nAdding build_deploy script\n\n\nBuilds, and then syncs the build to the beagle bone. Afterwards it runs the program, when exiting the terminal it kills the program if it did not exit elegantly when the ssh terminal was closed.\n\n\ncargo build --target arm-unknown-linux-gnueabihf\nrsync target/arm-unknown-linux-gnueabihf/debug/rusty-nail root@beaglebone.local:~/rusty-nail\nssh root@beaglebone.local ./rusty-nail\nssh root@beaglebone.local pkill -9 rusty-nail\n\n\n\n\nFuture Items/Resources\n\n\nUse \ntoml-rs\n to configure pin mapping for the program.",
+            "title": "Blinking An LED With Rust"
+        },
+        {
+            "location": "/notes/2016-12-13-blinking-a-led-with-rust/#blinking-a-led-with-rust",
+            "text": "Use  sysfs_gpio  This following program blinks an LED on and off every 2 seconds  extern crate sysfs_gpio;\n\nuse sysfs_gpio::{Direction, Pin};\nuse std::thread::sleep;\nuse std::time::Duration;\n\nfn main() {\n    let my_pin = Pin::new(68);\n    println!(\"{:?}\", my_pin);\n\n    my_pin.with_exported(|| {\n        my_pin.set_direction(Direction::Out).unwrap();\n        loop {\n            my_pin.set_value(0).unwrap();\n            sleep(Duration::from_millis(1000));\n            my_pin.set_value(1).unwrap();\n            sleep(Duration::from_millis(1000));\n        }\n    }).unwrap();\n}  Success!",
+            "title": "Blinking a LED with Rust"
+        },
+        {
+            "location": "/notes/2016-12-13-blinking-a-led-with-rust/#resources",
+            "text": "http://rust-embedded.github.io/rust-sysfs-gpio/sysfs_gpio/index.html",
+            "title": "Resources"
+        },
+        {
+            "location": "/notes/2016-12-13-blinking-a-led-with-rust/#adding-racer-support-to-atom",
+            "text": "rustup component add rust-src  sudo cargo install racer  Set the following:   bin_dir:  /home/cwoodall/.cargo/bin/racer  src_dir:  /home/cwoodall/.multirust/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/  optional cargo dir:  /home/cwoodall/.cargo",
+            "title": "Adding racer support to Atom"
+        },
+        {
+            "location": "/notes/2016-12-13-blinking-a-led-with-rust/#adding-build_deploy-script",
+            "text": "Builds, and then syncs the build to the beagle bone. Afterwards it runs the program, when exiting the terminal it kills the program if it did not exit elegantly when the ssh terminal was closed.  cargo build --target arm-unknown-linux-gnueabihf\nrsync target/arm-unknown-linux-gnueabihf/debug/rusty-nail root@beaglebone.local:~/rusty-nail\nssh root@beaglebone.local ./rusty-nail\nssh root@beaglebone.local pkill -9 rusty-nail",
+            "title": "Adding build_deploy script"
+        },
+        {
+            "location": "/notes/2016-12-13-blinking-a-led-with-rust/#future-itemsresources",
+            "text": "Use  toml-rs  to configure pin mapping for the program.",
+            "title": "Future Items/Resources"
+        },
+        {
+            "location": "/notes/2016-12-15-pwming-with-rust/",
+            "text": "Using Bash and /sys\n\n\nP8.13 -> /sys/class/pwm/pwmchip6/pwm1\n\n\nHow is this determined?\n\n\n# Enable pwm driver\necho am33xx_pwm > /sys/devices/platform/bone_capemgr/slots\necho cape-universal > /sys/devices/platform/bone_capemgr/slots\n\n# Export chip\necho 1 > /sys/class/pwm/pwmchip6/export\n\n# Setup PWM\necho 20000 > /sys/class/pwm/pwmchip6/pwm1/period\necho 10000 > /sys/class/pwm/pwmchip6/pwm1/duty_cycle\necho 1 > /sys/class/pwm/pwmchip6/pwm1/enable\n\n\n\n\nPWM With SysFS Library\n\n\nFound a pwm library from \nposborne\n which works\nwith sysfs: https://github.com/posborne/rust-sysfs-pwm\n\n\nAdd the following to Cargo.toml\n\n\n[dependencies]\n# or latest version\nsysfs-pwm = \"^0.1.0\"\n\n\n\n\nPackage does not seem to be found since it is not in carg\n\n\n[dependencies]\n...\nsysfs-pwm = {git=\"https://github.com/posborne/rust-sysfs-pwm.git\", branch=\"master\"}\n\n\n\n\nThe following script works using sysfs-pwm\n\n\nextern crate sysfs_pwm;\nuse sysfs_pwm::{Pwm, Result};\n\n// PIN: EHRPWM2B (P8_13)\nconst BB_PWM_CHIP: u32 = 6;\nconst BB_PWM_NUMBER: u32 = 1;\n\n/// Make an LED \"breathe\" by increasing and\n/// decreasing the brightness\nfn main() {\n    let pwm = Pwm::new(BB_PWM_CHIP, BB_PWM_NUMBER).unwrap(); // number depends on chip, etc.\n    pwm.with_exported(|| {\n        pwm.enable(true).unwrap();\n        pwm.set_period_ns(20_000).unwrap();\n        pwm.set_duty_cycle_ns(1000)\n    }).unwrap();\n}\n\n\n\n\nNote I think using this requires the pwm to be enabled using the capemanager and the pinmux to be set ahead of time.\n\n\nResources:\n\n\n\n\nhttps://github.com/posborne/rust-sysfs-pwm/blob/master/examples/breathe.rs\n\n\nhttps://groups.google.com/forum/#!category-topic/beagleboard/gpio/1mkf_s_g0vI\n\n\nhttps://github.com/beagleboard/bb.org-overlays/blob/master/examples/BB-BONE-BACONE/example.sh\n\n\nhttps://groups.google.com/forum/#!topic/beagleboard/dkS51WbicTo\n\n\nhttps://briancode.wordpress.com/2015/01/06/working-with-pwm-on-a-beaglebone-black/\n\n\nhttp://stackoverflow.com/questions/29369616/beaglebone-black-pwm-using-c",
+            "title": "PWM With Rust"
+        },
+        {
+            "location": "/notes/2016-12-15-pwming-with-rust/#using-bash-and-sys",
+            "text": "P8.13 -> /sys/class/pwm/pwmchip6/pwm1  How is this determined?  # Enable pwm driver\necho am33xx_pwm > /sys/devices/platform/bone_capemgr/slots\necho cape-universal > /sys/devices/platform/bone_capemgr/slots\n\n# Export chip\necho 1 > /sys/class/pwm/pwmchip6/export\n\n# Setup PWM\necho 20000 > /sys/class/pwm/pwmchip6/pwm1/period\necho 10000 > /sys/class/pwm/pwmchip6/pwm1/duty_cycle\necho 1 > /sys/class/pwm/pwmchip6/pwm1/enable",
+            "title": "Using Bash and /sys"
+        },
+        {
+            "location": "/notes/2016-12-15-pwming-with-rust/#pwm-with-sysfs-library",
+            "text": "Found a pwm library from  posborne  which works\nwith sysfs: https://github.com/posborne/rust-sysfs-pwm  Add the following to Cargo.toml  [dependencies]\n# or latest version\nsysfs-pwm = \"^0.1.0\"  Package does not seem to be found since it is not in carg  [dependencies]\n...\nsysfs-pwm = {git=\"https://github.com/posborne/rust-sysfs-pwm.git\", branch=\"master\"}  The following script works using sysfs-pwm  extern crate sysfs_pwm;\nuse sysfs_pwm::{Pwm, Result};\n\n// PIN: EHRPWM2B (P8_13)\nconst BB_PWM_CHIP: u32 = 6;\nconst BB_PWM_NUMBER: u32 = 1;\n\n/// Make an LED \"breathe\" by increasing and\n/// decreasing the brightness\nfn main() {\n    let pwm = Pwm::new(BB_PWM_CHIP, BB_PWM_NUMBER).unwrap(); // number depends on chip, etc.\n    pwm.with_exported(|| {\n        pwm.enable(true).unwrap();\n        pwm.set_period_ns(20_000).unwrap();\n        pwm.set_duty_cycle_ns(1000)\n    }).unwrap();\n}  Note I think using this requires the pwm to be enabled using the capemanager and the pinmux to be set ahead of time.  Resources:   https://github.com/posborne/rust-sysfs-pwm/blob/master/examples/breathe.rs  https://groups.google.com/forum/#!category-topic/beagleboard/gpio/1mkf_s_g0vI  https://github.com/beagleboard/bb.org-overlays/blob/master/examples/BB-BONE-BACONE/example.sh  https://groups.google.com/forum/#!topic/beagleboard/dkS51WbicTo  https://briancode.wordpress.com/2015/01/06/working-with-pwm-on-a-beaglebone-black/  http://stackoverflow.com/questions/29369616/beaglebone-black-pwm-using-c",
+            "title": "PWM With SysFS Library"
+        },
+        {
+            "location": "/notes/2016-12-17-hardware-pumping-seltzer/",
+            "text": "Hardware For Pumping Seltzer\n\n\nTo pump seltzer you can't use a peristaltic pump because it flattens the\nseltzer. There  are some ways to pump carbonated beverages. I considered two:\nOne of them is to pump flat liquid and then carbonate it like a soda fountain.\nI will try the second method first since the parts are cheaper for a\nsimple prototype and less prone to catastrophic failure.\n\n\nMaterials\n\n\n\n\n\n\n\n\nDescription\n\n\nSupplier\n\n\nPart Number\n\n\nURL\n\n\nPrice\n\n\n\n\n\n\n\n\n\n\nVacuum Pump - 12V\n\n\nSparkfun\n\n\nROB-10398\n\n\nsparkfun\n\n\n$14.95\n\n\n\n\n\n\nWhite SiliconeTubing, 3/16\"ID, 1/4\"OD, 1/32\" Wall, 10' Length\n\n\nAmazon\n\n\nN/A\n\n\namazon\n\n\n$8.47 for 10'\n\n\n\n\n\n\nSome 1/4\" barbed connectors\n\n\n?\n\n\n?\n\n\namazon\n\n\n$5.96 for 50\n\n\n\n\n\n\nSilicone RTV 4500 FDA Grade High Strength Silicone Sealant, Clear (2.8 fl.oz)\n\n\nAmazon\n\n\n?\n\n\namazon\n\n\n$5.17\n\n\n\n\n\n\nSoda Bottle Top\n\n\n\n\n\n\nSource from anywhere\n\n\n$0\n\n\n\n\n\n\n\n\nTotal cost for prototype: $41.56",
+            "title": "Parts For A Seltzer Air Pump"
+        },
+        {
+            "location": "/notes/2016-12-17-hardware-pumping-seltzer/#hardware-for-pumping-seltzer",
+            "text": "To pump seltzer you can't use a peristaltic pump because it flattens the\nseltzer. There  are some ways to pump carbonated beverages. I considered two:\nOne of them is to pump flat liquid and then carbonate it like a soda fountain.\nI will try the second method first since the parts are cheaper for a\nsimple prototype and less prone to catastrophic failure.",
+            "title": "Hardware For Pumping Seltzer"
+        },
+        {
+            "location": "/notes/2016-12-17-hardware-pumping-seltzer/#materials",
+            "text": "Description  Supplier  Part Number  URL  Price      Vacuum Pump - 12V  Sparkfun  ROB-10398  sparkfun  $14.95    White SiliconeTubing, 3/16\"ID, 1/4\"OD, 1/32\" Wall, 10' Length  Amazon  N/A  amazon  $8.47 for 10'    Some 1/4\" barbed connectors  ?  ?  amazon  $5.96 for 50    Silicone RTV 4500 FDA Grade High Strength Silicone Sealant, Clear (2.8 fl.oz)  Amazon  ?  amazon  $5.17    Soda Bottle Top    Source from anywhere  $0     Total cost for prototype: $41.56",
+            "title": "Materials"
+        },
+        {
+            "location": "/notes/2016-12-22-air-pump-test/",
+            "text": "Experimenting with Air Pump Hardware\n\n\nOrder from 2016-12-17 came in.\n\n\nConstruction\n\n\n\n\nTook a seltzer bottle cap and drilled 2 1/4\" holes in it.\n\n\nCut the 3/16\" ID, 1/4\" OD tubing into two pieces a longer and a shorter piece, one will feed from the cap to the motor and the other from the bottom of the container (through the cap) to the cup.\n\n\nNote: the tubing is flimsy with 1/32\" wall, but fits perfectly and tightly enough I did not need to use the silicone sealant to create a gasket/seal. This is good since it allows me to experiment with different bottles, and also clean the tubing easier and just throw out used/old caps.\n\n\nI made sure one piece just passed 1/2\" or so under the cap and the other tube went to the bottom of the bottle, with enough room to not have the flow disrupted by the bottom of the container.\n\n\nHooked the end which only goes a short distance into the bottle to the air pump.\n\n\nDone!\n\n\n\n\nTest Procedure\n\n\n\n\nHooked up 12V accross pump, luckily the nozzle that broke off in shipment was for the vaccuum, so I can still use the pump. Pumps in either direction, so polarity does not seem to matter.\n\n\nIt ran and the air started pumping. Quite a bit of vibration, not quite sure how to mount it yet since there are no mounting flanges.\n\n\n\n\nVideo\n\n\n\n\nConclusion\n\n\nSeems to work pretty well. I do need to measure pump\nrates, but other than that it seems pretty straight\nforward to me. It should work well.",
+            "title": "Test Of Air Pump"
+        },
+        {
+            "location": "/notes/2016-12-22-air-pump-test/#experimenting-with-air-pump-hardware",
+            "text": "Order from 2016-12-17 came in.",
+            "title": "Experimenting with Air Pump Hardware"
+        },
+        {
+            "location": "/notes/2016-12-22-air-pump-test/#construction",
+            "text": "Took a seltzer bottle cap and drilled 2 1/4\" holes in it.  Cut the 3/16\" ID, 1/4\" OD tubing into two pieces a longer and a shorter piece, one will feed from the cap to the motor and the other from the bottom of the container (through the cap) to the cup.  Note: the tubing is flimsy with 1/32\" wall, but fits perfectly and tightly enough I did not need to use the silicone sealant to create a gasket/seal. This is good since it allows me to experiment with different bottles, and also clean the tubing easier and just throw out used/old caps.  I made sure one piece just passed 1/2\" or so under the cap and the other tube went to the bottom of the bottle, with enough room to not have the flow disrupted by the bottom of the container.  Hooked the end which only goes a short distance into the bottle to the air pump.  Done!",
+            "title": "Construction"
+        },
+        {
+            "location": "/notes/2016-12-22-air-pump-test/#test-procedure",
+            "text": "Hooked up 12V accross pump, luckily the nozzle that broke off in shipment was for the vaccuum, so I can still use the pump. Pumps in either direction, so polarity does not seem to matter.  It ran and the air started pumping. Quite a bit of vibration, not quite sure how to mount it yet since there are no mounting flanges.",
+            "title": "Test Procedure"
+        },
+        {
+            "location": "/notes/2016-12-22-air-pump-test/#video",
+            "text": "",
+            "title": "Video"
+        },
+        {
+            "location": "/notes/2016-12-22-air-pump-test/#conclusion",
+            "text": "Seems to work pretty well. I do need to measure pump\nrates, but other than that it seems pretty straight\nforward to me. It should work well.",
+            "title": "Conclusion"
+        }
+    ]
+}

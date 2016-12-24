@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="no-js ie6"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    
+      
+        <title>PWM With Rust - My Docs</title>
+      
+      
+      
+      
+    
+    <meta property="og:url" content="None">
+    <meta property="og:title" content="My Docs">
+    <meta property="og:image" content="None/../../">
+    <meta name="apple-mobile-web-app-title" content="My Docs">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <style>
+      @font-face {
+      	font-family: 'Icon';
+      	src: url('../../assets/fonts/icon.eot?52m981');
+      	src: url('../../assets/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+      		   url('../../assets/fonts/icon.woff?52m981')
+               format('woff'),
+      		   url('../../assets/fonts/icon.ttf?52m981')
+               format('truetype'),
+      		   url('../../assets/fonts/icon.svg?52m981#icon')
+               format('svg');
+      	font-weight: normal;
+      	font-style: normal;
+      }
+    </style>
+    <link rel="stylesheet" href="../../assets/stylesheets/application-a422ff04cc.css">
+    
+    
+      
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu+Mono">
+      <style>
+        body, input {
+          font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+        }
+        pre, code {
+          font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+        }
+      </style>
+    
+    
+    <script src="../../assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    
+  </head>
+  
+  
+  
+  <body class=" ">
+    
+    <div class="backdrop">
+      <div class="backdrop-paper"></div>
+    </div>
+    <input class="toggle" type="checkbox" id="toggle-drawer">
+    <input class="toggle" type="checkbox" id="toggle-search">
+    <label class="toggle-button overlay" for="toggle-drawer"></label>
+    <header class="header">
+      <nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        
+          <span class="path">
+            
+              
+                Notes <i class="icon icon-link"></i>
+              
+            
+          </span>
+        
+        PWM With Rust
+      </div>
+    </div>
+    
+    
+    <div class="button button-search" role="button" aria-label="Search">
+      <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
+    </div>
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+    </header>
+    <main class="main">
+      
+      <div class="drawer">
+        <nav aria-label="Navigation">
+  
+  <a href="/" class="project">
+    <div class="banner">
+      
+      <div class="name">
+        <strong>
+          My Docs
+          <span class="version">
+            
+          </span>
+        </strong>
+        
+      </div>
+    </div>
+  </a>
+  <div class="scrollable">
+    <div class="wrapper">
+      
+      <div class="toc">
+        <ul>
+          
+            
+  <li>
+    <a class="" title="Index" href="../..">
+      Index
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Notes</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Setting Up A Beaglebone With Rust" href="../2016-12-11-setting-up-beaglebone-with-rust/">
+      Setting Up A Beaglebone With Rust
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Blinking An LED With Rust" href="../2016-12-13-blinking-a-led-with-rust/">
+      Blinking An LED With Rust
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="current" title="PWM With Rust" href="./">
+      PWM With Rust
+    </a>
+    
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="Using Bash and /sys" href="#using-bash-and-sys">
+                Using Bash and /sys
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="PWM With SysFS Library" href="#pwm-with-sysfs-library">
+                PWM With SysFS Library
+              </a>
+            </li>
+          
+        </ul>
+      
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Parts For A Seltzer Air Pump" href="../2016-12-17-hardware-pumping-seltzer/">
+      Parts For A Seltzer Air Pump
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Test Of Air Pump" href="../2016-12-22-air-pump-test/">
+      Test Of Air Pump
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+      </div>
+      <article class="article">
+        <div class="wrapper">
+          
+            <h1>PWM With Rust</h1>
+          
+          <h2 id="using-bash-and-sys">Using Bash and /sys</h2>
+<p>P8.13 -&gt; /sys/class/pwm/pwmchip6/pwm1</p>
+<p>How is this determined?</p>
+<pre><code># Enable pwm driver
+echo am33xx_pwm &gt; /sys/devices/platform/bone_capemgr/slots
+echo cape-universal &gt; /sys/devices/platform/bone_capemgr/slots
+
+# Export chip
+echo 1 &gt; /sys/class/pwm/pwmchip6/export
+
+# Setup PWM
+echo 20000 &gt; /sys/class/pwm/pwmchip6/pwm1/period
+echo 10000 &gt; /sys/class/pwm/pwmchip6/pwm1/duty_cycle
+echo 1 &gt; /sys/class/pwm/pwmchip6/pwm1/enable
+</code></pre>
+
+<h2 id="pwm-with-sysfs-library">PWM With SysFS Library</h2>
+<p>Found a pwm library from <a href="https://github.com/posborne">posborne</a> which works
+with sysfs: https://github.com/posborne/rust-sysfs-pwm</p>
+<p>Add the following to Cargo.toml</p>
+<pre><code>[dependencies]
+# or latest version
+sysfs-pwm = &quot;^0.1.0&quot;
+</code></pre>
+
+<p>Package does not seem to be found since it is not in carg</p>
+<pre><code>[dependencies]
+...
+sysfs-pwm = {git=&quot;https://github.com/posborne/rust-sysfs-pwm.git&quot;, branch=&quot;master&quot;}
+</code></pre>
+
+<p>The following script works using sysfs-pwm</p>
+<pre><code>extern crate sysfs_pwm;
+use sysfs_pwm::{Pwm, Result};
+
+// PIN: EHRPWM2B (P8_13)
+const BB_PWM_CHIP: u32 = 6;
+const BB_PWM_NUMBER: u32 = 1;
+
+/// Make an LED &quot;breathe&quot; by increasing and
+/// decreasing the brightness
+fn main() {
+    let pwm = Pwm::new(BB_PWM_CHIP, BB_PWM_NUMBER).unwrap(); // number depends on chip, etc.
+    pwm.with_exported(|| {
+        pwm.enable(true).unwrap();
+        pwm.set_period_ns(20_000).unwrap();
+        pwm.set_duty_cycle_ns(1000)
+    }).unwrap();
+}
+</code></pre>
+
+<p>Note I think using this requires the pwm to be enabled using the capemanager and the pinmux to be set ahead of time.</p>
+<p>Resources:</p>
+<ul>
+<li>https://github.com/posborne/rust-sysfs-pwm/blob/master/examples/breathe.rs</li>
+<li>https://groups.google.com/forum/#!category-topic/beagleboard/gpio/1mkf_s_g0vI</li>
+<li>https://github.com/beagleboard/bb.org-overlays/blob/master/examples/BB-BONE-BACONE/example.sh</li>
+<li>https://groups.google.com/forum/#!topic/beagleboard/dkS51WbicTo</li>
+<li>https://briancode.wordpress.com/2015/01/06/working-with-pwm-on-a-beaglebone-black/</li>
+<li>http://stackoverflow.com/questions/29369616/beaglebone-black-pwm-using-c</li>
+</ul>
+          <aside class="copyright" role="note">
+            
+            Documentation built with
+            <a href="http://www.mkdocs.org" target="_blank">MkDocs</a>
+            using the
+            <a href="http://squidfunk.github.io/mkdocs-material/" target="_blank">
+              Material
+            </a>
+            theme.
+          </aside>
+          
+            <footer class="footer">
+              
+  <nav class="pagination" aria-label="Footer">
+    <div class="previous">
+      
+        <a href="../2016-12-13-blinking-a-led-with-rust/" title="Blinking An LED With Rust">
+          <span class="direction">
+            Previous
+          </span>
+          <div class="page">
+            <div class="button button-previous" role="button" aria-label="Previous">
+              <i class="icon icon-back"></i>
+            </div>
+            <div class="stretch">
+              <div class="title">
+                Blinking An LED With Rust
+              </div>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+    <div class="next">
+      
+        <a href="../2016-12-17-hardware-pumping-seltzer/" title="Parts For A Seltzer Air Pump">
+          <span class="direction">
+            Next
+          </span>
+          <div class="page">
+            <div class="stretch">
+              <div class="title">
+                Parts For A Seltzer Air Pump
+              </div>
+            </div>
+            <div class="button button-next" role="button" aria-label="Next">
+              <i class="icon icon-forward"></i>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+  </nav>
+
+            </footer>
+          
+        </div>
+      </article>
+      <div class="results" role="status" aria-live="polite">
+        <div class="scrollable">
+          <div class="wrapper">
+            <div class="meta"></div>
+            <div class="list"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      var base_url = '../..';
+      var repo_id  = '';
+    </script>
+    <script src="../../assets/javascripts/application-997097ee0c.js"></script>
+    
+    
+  </body>
+</html>

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="no-js ie6"><![endif]-->
+<!--[if IE 7 ]><html class="no-js ie7"><![endif]-->
+<!--[if IE 8 ]><html class="no-js ie8"><![endif]-->
+<!--[if IE 9 ]><html class="no-js ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+    
+      
+        <title>Blinking An LED With Rust - My Docs</title>
+      
+      
+      
+      
+    
+    <meta property="og:url" content="None">
+    <meta property="og:title" content="My Docs">
+    <meta property="og:image" content="None/../../">
+    <meta name="apple-mobile-web-app-title" content="My Docs">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <style>
+      @font-face {
+      	font-family: 'Icon';
+      	src: url('../../assets/fonts/icon.eot?52m981');
+      	src: url('../../assets/fonts/icon.eot?#iefix52m981')
+               format('embedded-opentype'),
+      		   url('../../assets/fonts/icon.woff?52m981')
+               format('woff'),
+      		   url('../../assets/fonts/icon.ttf?52m981')
+               format('truetype'),
+      		   url('../../assets/fonts/icon.svg?52m981#icon')
+               format('svg');
+      	font-weight: normal;
+      	font-style: normal;
+      }
+    </style>
+    <link rel="stylesheet" href="../../assets/stylesheets/application-a422ff04cc.css">
+    
+    
+      
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,700|Ubuntu+Mono">
+      <style>
+        body, input {
+          font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+        }
+        pre, code {
+          font-family: 'Ubuntu Mono', 'Courier New', 'Courier', monospace;
+        }
+      </style>
+    
+    
+    <script src="../../assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    
+  </head>
+  
+  
+  
+  <body class=" ">
+    
+    <div class="backdrop">
+      <div class="backdrop-paper"></div>
+    </div>
+    <input class="toggle" type="checkbox" id="toggle-drawer">
+    <input class="toggle" type="checkbox" id="toggle-search">
+    <label class="toggle-button overlay" for="toggle-drawer"></label>
+    <header class="header">
+      <nav aria-label="Header">
+  <div class="bar default">
+    <div class="button button-menu" role="button" aria-label="Menu">
+      <label class="toggle-button icon icon-menu" for="toggle-drawer">
+        <span></span>
+      </label>
+    </div>
+    <div class="stretch">
+      <div class="title">
+        
+          <span class="path">
+            
+              
+                Notes <i class="icon icon-link"></i>
+              
+            
+          </span>
+        
+        Blinking An LED With Rust
+      </div>
+    </div>
+    
+    
+    <div class="button button-search" role="button" aria-label="Search">
+      <label class="toggle-button icon icon-search" title="Search" for="toggle-search"></label>
+    </div>
+  </div>
+  <div class="bar search">
+    <div class="button button-close" role="button" aria-label="Close">
+      <label class="toggle-button icon icon-back" for="toggle-search"></label>
+    </div>
+    <div class="stretch">
+      <div class="field">
+        <input class="query" type="text" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck>
+      </div>
+    </div>
+    <div class="button button-reset" role="button" aria-label="Search">
+      <button class="toggle-button icon icon-close" id="reset-search"></button>
+    </div>
+  </div>
+</nav>
+    </header>
+    <main class="main">
+      
+      <div class="drawer">
+        <nav aria-label="Navigation">
+  
+  <a href="/" class="project">
+    <div class="banner">
+      
+      <div class="name">
+        <strong>
+          My Docs
+          <span class="version">
+            
+          </span>
+        </strong>
+        
+      </div>
+    </div>
+  </a>
+  <div class="scrollable">
+    <div class="wrapper">
+      
+      <div class="toc">
+        <ul>
+          
+            
+  <li>
+    <a class="" title="Index" href="../..">
+      Index
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <span class="section">Notes</span>
+    <ul>
+      
+        
+  <li>
+    <a class="" title="Setting Up A Beaglebone With Rust" href="../2016-12-11-setting-up-beaglebone-with-rust/">
+      Setting Up A Beaglebone With Rust
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="current" title="Blinking An LED With Rust" href="./">
+      Blinking An LED With Rust
+    </a>
+    
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="Blinking a LED with Rust" href="#blinking-a-led-with-rust">
+                Blinking a LED with Rust
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Adding racer support to Atom" href="#adding-racer-support-to-atom">
+                Adding racer support to Atom
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Adding build_deploy script" href="#adding-build_deploy-script">
+                Adding build_deploy script
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Future Items/Resources" href="#future-itemsresources">
+                Future Items/Resources
+              </a>
+            </li>
+          
+        </ul>
+      
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="PWM With Rust" href="../2016-12-15-pwming-with-rust/">
+      PWM With Rust
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Parts For A Seltzer Air Pump" href="../2016-12-17-hardware-pumping-seltzer/">
+      Parts For A Seltzer Air Pump
+    </a>
+    
+  </li>
+
+      
+        
+  <li>
+    <a class="" title="Test Of Air Pump" href="../2016-12-22-air-pump-test/">
+      Test Of Air Pump
+    </a>
+    
+  </li>
+
+      
+    </ul>
+  </li>
+
+          
+        </ul>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+      </div>
+      <article class="article">
+        <div class="wrapper">
+          
+            <h1>Blinking An LED With Rust</h1>
+          
+          <h2 id="blinking-a-led-with-rust">Blinking a LED with Rust</h2>
+<p>Use <code>sysfs_gpio</code></p>
+<p>This following program blinks an LED on and off every 2 seconds</p>
+<pre><code class="rust">extern crate sysfs_gpio;
+
+use sysfs_gpio::{Direction, Pin};
+use std::thread::sleep;
+use std::time::Duration;
+
+fn main() {
+    let my_pin = Pin::new(68);
+    println!(&quot;{:?}&quot;, my_pin);
+
+    my_pin.with_exported(|| {
+        my_pin.set_direction(Direction::Out).unwrap();
+        loop {
+            my_pin.set_value(0).unwrap();
+            sleep(Duration::from_millis(1000));
+            my_pin.set_value(1).unwrap();
+            sleep(Duration::from_millis(1000));
+        }
+    }).unwrap();
+}
+</code></pre>
+
+<p>Success!</p>
+<p><img alt="Blinking an LED in Rust" src="../../assets/images/test-rust-led-blink.gif" /></p>
+<h3 id="resources">Resources</h3>
+<p>http://rust-embedded.github.io/rust-sysfs-gpio/sysfs_gpio/index.html</p>
+<h2 id="adding-racer-support-to-atom">Adding racer support to Atom</h2>
+<pre><code>rustup component add rust-src
+</code></pre>
+
+<pre><code>sudo cargo install racer
+</code></pre>
+
+<p>Set the following:</p>
+<ul>
+<li>bin_dir: <code>/home/cwoodall/.cargo/bin/racer</code></li>
+<li>src_dir: <code>/home/cwoodall/.multirust/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/</code></li>
+<li>optional cargo dir: <code>/home/cwoodall/.cargo</code></li>
+</ul>
+<h2 id="adding-build_deploy-script">Adding build_deploy script</h2>
+<p>Builds, and then syncs the build to the beagle bone. Afterwards it runs the program, when exiting the terminal it kills the program if it did not exit elegantly when the ssh terminal was closed.</p>
+<pre><code>cargo build --target arm-unknown-linux-gnueabihf
+rsync target/arm-unknown-linux-gnueabihf/debug/rusty-nail root@beaglebone.local:~/rusty-nail
+ssh root@beaglebone.local ./rusty-nail
+ssh root@beaglebone.local pkill -9 rusty-nail
+</code></pre>
+
+<h2 id="future-itemsresources">Future Items/Resources</h2>
+<p>Use <a href="https://github.com/alexcrichton/toml-rs">toml-rs</a> to configure pin mapping for the program.</p>
+          <aside class="copyright" role="note">
+            
+            Documentation built with
+            <a href="http://www.mkdocs.org" target="_blank">MkDocs</a>
+            using the
+            <a href="http://squidfunk.github.io/mkdocs-material/" target="_blank">
+              Material
+            </a>
+            theme.
+          </aside>
+          
+            <footer class="footer">
+              
+  <nav class="pagination" aria-label="Footer">
+    <div class="previous">
+      
+        <a href="../2016-12-11-setting-up-beaglebone-with-rust/" title="Setting Up A Beaglebone With Rust">
+          <span class="direction">
+            Previous
+          </span>
+          <div class="page">
+            <div class="button button-previous" role="button" aria-label="Previous">
+              <i class="icon icon-back"></i>
+            </div>
+            <div class="stretch">
+              <div class="title">
+                Setting Up A Beaglebone With Rust
+              </div>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+    <div class="next">
+      
+        <a href="../2016-12-15-pwming-with-rust/" title="PWM With Rust">
+          <span class="direction">
+            Next
+          </span>
+          <div class="page">
+            <div class="stretch">
+              <div class="title">
+                PWM With Rust
+              </div>
+            </div>
+            <div class="button button-next" role="button" aria-label="Next">
+              <i class="icon icon-forward"></i>
+            </div>
+          </div>
+        </a>
+      
+    </div>
+  </nav>
+
+            </footer>
+          
+        </div>
+      </article>
+      <div class="results" role="status" aria-live="polite">
+        <div class="scrollable">
+          <div class="wrapper">
+            <div class="meta"></div>
+            <div class="list"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      var base_url = '../..';
+      var repo_id  = '';
+    </script>
+    <script src="../../assets/javascripts/application-997097ee0c.js"></script>
+    
+    
+  </body>
+</html>
