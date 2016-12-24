@@ -1,8 +1,3 @@
-**Table of Contents:**
-<!-- TOC -->
-<!-- /TOC -->
-
-
 ## Using Bash and /sys
 
 P8.13 -> /sys/class/pwm/pwmchip6/pwm1
@@ -70,10 +65,10 @@ Note I think using this requires the pwm to be enabled using the capemanager and
 
 
 Resources:
+
 - https://github.com/posborne/rust-sysfs-pwm/blob/master/examples/breathe.rs
 - https://groups.google.com/forum/#!category-topic/beagleboard/gpio/1mkf_s_g0vI
-
--https://github.com/beagleboard/bb.org-overlays/blob/master/examples/BB-BONE-BACONE/example.sh
+- https://github.com/beagleboard/bb.org-overlays/blob/master/examples/BB-BONE-BACONE/example.sh
 - https://groups.google.com/forum/#!topic/beagleboard/dkS51WbicTo
 - https://briancode.wordpress.com/2015/01/06/working-with-pwm-on-a-beaglebone-black/
 - http://stackoverflow.com/questions/29369616/beaglebone-black-pwm-using-c

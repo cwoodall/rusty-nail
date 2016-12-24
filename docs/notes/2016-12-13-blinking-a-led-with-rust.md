@@ -1,7 +1,4 @@
-**Table of Contents**
-
-
-# Blinking a LED with Rust
+## Blinking a LED with Rust
 
 Use `sysfs_gpio`
 
@@ -32,15 +29,15 @@ fn main() {
 
 Success!
 
-![Blinking an LED in Rust](images/test-rust-led-blink.gif)
+![Blinking an LED in Rust](../assets/images/test-rust-led-blink.gif)
 
 
-## Resources
+### Resources
 
 http://rust-embedded.github.io/rust-sysfs-gpio/sysfs_gpio/index.html
 
 
-# Adding racer support to Atom
+## Adding racer support to Atom
 ```
 rustup component add rust-src
 ```
@@ -55,7 +52,7 @@ Set the following:
 - src_dir: `/home/cwoodall/.multirust/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/`
 - optional cargo dir: `/home/cwoodall/.cargo`
 
-# Adding build_deploy script
+## Adding build_deploy script
 
 Builds, and then syncs the build to the beagle bone. Afterwards it runs the program, when exiting the terminal it kills the program if it did not exit elegantly when the ssh terminal was closed.
 
@@ -66,6 +63,6 @@ ssh root@beaglebone.local ./rusty-nail
 ssh root@beaglebone.local pkill -9 rusty-nail
 ```
 
-# Future Items/Resources
+## Future Items/Resources
 
 Use [toml-rs](https://github.com/alexcrichton/toml-rs) to configure pin mapping for the program.
