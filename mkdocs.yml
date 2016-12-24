@@ -1,7 +1,8 @@
-site_name: My Docs
+site_name: Rusty Nail Notes and Documentation
 theme: material
 pages:
   - Index: index.md
+  - Documentation: doc/rusty_nail/index.md
   - Notes:
     - Setting Up A Beaglebone With Rust: notes/2016-12-11-setting-up-beaglebone-with-rust.md
     - Blinking An LED With Rust: notes/2016-12-13-blinking-a-led-with-rust.md
