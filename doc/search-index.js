@@ -1,0 +1,3 @@
+var searchIndex = {};
+searchIndex["rusty_nail"] = {"doc":"","items":[[0,"dispenser","rusty_nail","",null,null],[8,"Dispenser","rusty_nail::dispenser","Defines trait for interfacing to a dispense",null,null],[10,"max_flow_rate","","Returns the maximum flow rate of the pump in mL/s",0,null],[10,"set_flow_rate","","Sets the current flow rate of the pump in mL/s",0,null],[10,"get_name","","Get the name of beverage being pumped.",0,null],[10,"set_name","","Get the name of beverage being pumped.",0,null],[10,"set_level","","Set the current liquid level in mL.",0,null],[10,"get_level","","Get the current liquid level in mL.",0,null],[10,"dispense","","Dispense some quantity of liquid in mL.",0,null]],"paths":[[8,"Dispenser"]]};
+initSearch(searchIndex);

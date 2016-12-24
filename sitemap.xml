@@ -10,6 +10,14 @@
     
 
     
+    <url>
+     <loc>/doc/rusty_nail/</loc>
+     <lastmod>2016-12-24</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
         
     <url>
      <loc>/notes/2016-12-11-setting-up-beaglebone-with-rust/</loc>
