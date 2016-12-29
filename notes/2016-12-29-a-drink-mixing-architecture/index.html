@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     
       
-        <title>Setting Up A Beaglebone With Rust - Rusty Nail Notes and Documentation</title>
+        <title>A Drink Mixing Architecture - Rusty Nail Notes and Documentation</title>
       
       
       
@@ -91,7 +91,7 @@
             
           </span>
         
-        Setting Up A Beaglebone With Rust
+        A Drink Mixing Architecture
       </div>
     </div>
     
@@ -165,34 +165,9 @@
       
         
   <li>
-    <a class="current" title="Setting Up A Beaglebone With Rust" href="./">
+    <a class="" title="Setting Up A Beaglebone With Rust" href="../2016-12-11-setting-up-beaglebone-with-rust/">
       Setting Up A Beaglebone With Rust
     </a>
-    
-      
-      
-        <ul>
-          
-            <li class="anchor">
-              <a title="Basic beaglebone information" href="#basic-beaglebone-information">
-                Basic beaglebone information
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Setting up wifi" href="#setting-up-wifi">
-                Setting up wifi
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Getting Rust Running on BeagleBone Black" href="#getting-rust-running-on-beaglebone-black">
-                Getting Rust Running on BeagleBone Black
-              </a>
-            </li>
-          
-        </ul>
-      
     
   </li>
 
@@ -235,9 +210,30 @@
       
         
   <li>
-    <a class="" title="A Drink Mixing Architecture" href="../2016-12-29-a-drink-mixing-architecture/">
+    <a class="current" title="A Drink Mixing Architecture" href="./">
       A Drink Mixing Architecture
     </a>
+    
+      
+        
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="Starting off the day with some learning about Rust!" href="#starting-off-the-day-with-some-learning-about-rust">
+                Starting off the day with some learning about Rust!
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Architecture" href="#architecture">
+                Architecture
+              </a>
+            </li>
+          
+        </ul>
+      
     
   </li>
 
@@ -256,101 +252,29 @@
       <article class="article">
         <div class="wrapper">
           
-            <h1>Setting Up A Beaglebone With Rust</h1>
-          
-          <h2 id="basic-beaglebone-information">Basic beaglebone information</h2>
-<pre><code>$ uname -a
-Linux beaglebone 4.4.9-ti-r25 #1 SMP Thu May 5 23:08:13 UTC 2016 armv7l GNU/Linux
-</code></pre>
-
-<p>Using debian Jessie</p>
-<h2 id="setting-up-wifi">Setting up wifi</h2>
-<p>First step was to setup wifi on the Beaglebone Green. First I looked in
-<code>/etc/network/interfaces</code> which told me to use <code>connmanctl</code>. The [arch wiki][https://wiki.archlinux.org/index.php/Connman] had some good instructions which I used:</p>
-<pre><code>root@beaglebone:~# connmanctl
-Error getting VPN connections: The name net.connman.vpn was not provided by any .service filesconnmanctl&gt;connmanctl&gt; scan wifi
-Scan completed for wifi
-connmanctl&gt; services
-*AO tesla                wifi_2cf7f106045e_7465736c61_managed_psk
-                         wifi_2cf7f106045e_hidden_managed_psk
-    xfinitywifi          wifi_2cf7f106045e_7866696e69747977696669_managed_none
-    Amanda and Jon       wifi_2cf7f106045e_416d616e646120616e64204a6f6e_managed_psk
-    ARRIS-B762           wifi_2cf7f106045e_41525249532d42373632_managed_psk
-    ARRIS-B48A           wifi_2cf7f106045e_41525249532d42343841_managed_psk
-    ARRIS-2C02           wifi_2cf7f106045e_41525249532d32433032_managed_psk
-    XXFSETUP-A984        wifi_2cf7f106045e_58584653455455502d41393834_managed_psk
-    Pignet               wifi_2cf7f106045e_5069676e6574_managed_psk
-    franstein            wifi_2cf7f106045e_6672616e737465696e_managed_psk
-    Persephone           wifi_2cf7f106045e_506572736570686f6e65_managed_psk
-    WENDY                wifi_2cf7f106045e_57454e4459_managed_psk
-connmanctl&gt; agent on
-Agent registered
-connmanctl&gt; connect wifi_2cf7f106045e_7465736c61_managed_psk
-Passphrase?
-</code></pre>
-
-<h2 id="getting-rust-running-on-beaglebone-black">Getting Rust Running on BeagleBone Black</h2>
-<h3 id="attempt-number-1-rustup">Attempt number 1: rustup</h3>
-<p>We will use <a href="https://github.com/rust-lang-nursery/rustup.rs">rustup</a> which is a rust toolchain installer similar
-to rvm or virtualenv. On one hand I could do development locally and
-then deploy, I would rather have a local toolchain on the beaglebone
-as well for tinkering. In the long run I might prefer to push
-cross compiled binaries.</p>
-<p>First lets upgrade:</p>
-<pre><code>$ sudo apt update
-$ sudo apt upgrade
-</code></pre>
-
-<pre><code>$ curl -sSf https://static.rust-lang.org/rustup.sh | sh
-</code></pre>
-
-<p>I get an error when building package... Seems to be a gcc-4 vs gcc-6 error... Updated all things  to stretch... May be a terrible idea.</p>
-<p>Partially following: https://strongrandom.com/spi-on-a-beaglebone-black-for-led-domination.html</p>
-<h3 id="attempt-number-2-cross-compiling">Attempt number 2: Cross compiling</h3>
-<p>Install the arm-unknown-linux-gnueabihf target. On Fedora 25 we can find
-this in copr:</p>
-<pre><code>sudo dnf copr enable lantw44/arm-linux-gnueabihf-toolchain
-sudo dnf install arm-linux-gnueabihf-gcc
-</code></pre>
-
-<p>Using <a href="https://github.com/rust-lang-nursery/rustup.rs">rustup</a> we can download and install the arm-unknown-linux-gnueabihf target</p>
-<pre><code>$rustup target add arm-unknown-linux-gnueabihf
-</code></pre>
-
-<p>Next we need to add the followign lines to our <code>~/.cargo/config</code> file:</p>
-<pre><code>[target.arm-unknown-linux-gnueabihf]
-linker = &quot;arm-linux-gnueabihf-gcc&quot;
-</code></pre>
-
-<p>Now finally you can:</p>
-<pre><code>$ cargo new --bin test-on-arm
-$ cd test-on-arm
-$ cargo build --target arm-unknown-linux-gnueabihf
-$ scp target/arm-unknown-linux-gnueabihf/debug/test-on-arm root@beaglebone.local:~
-Debian GNU/Linux 8
-
-BeagleBoard.org Debian Image 2016-05-27
-
-Support/FAQ: http://elinux.org/Beagleboard:BeagleBoneBlack_Debian
-
-default username:password is [debian:temppwd]
-
-test-on-arm                                                            100% 1578KB   3.4MB/s   00:00
-$ ssh root@beaglebone.local ./test-on-arm
-Debian GNU/Linux 8
-
-BeagleBoard.org Debian Image 2016-05-27
-
-Support/FAQ: http://elinux.org/Beagleboard:BeagleBoneBlack_Debian
-
-default username:password is [debian:temppwd]
-
-Hello, world!
-</code></pre>
-
-<p>Thanks to:
-https://github.com/andygrove/rust-bbb-experiments
-https://fedorahosted.org/copr/wiki/HowToEnableRepo</p>
+          <h1 id="an-architecture-for-pumping-drinks">An Architecture For Pumping Drinks</h1>
+<h2 id="starting-off-the-day-with-some-learning-about-rust">Starting off the day with some learning about Rust!</h2>
+<p>I started off the day off by watching the <a href="http://intorust.com">into_rust()</a>
+video lectures and exercises! These really helped me improve my understanding of
+Rust's Ownership model. My understanding was still stuck in C/C++!</p>
+<h2 id="architecture">Architecture</h2>
+<p>Let's start-off by making a little bit of an architecture! The following
+picture was taken from a quick sketch I did, but I believe it has the
+core pieces. This architecture only goes up to the <code>web api</code>. The front-end
+website will be dealt with later.</p>
+<p><img alt="Architecture" src="../../assets/images/architecture/rusty-nail-architecture-001.svg" /></p>
+<p>Some terms that will be used in the project:</p>
+<ul>
+<li><code>dispenser</code>: Is an abstraction of the pump. it maintains state of how much liquid is in it, how to pump it at a given rate, and how to pump a given quantity. This has no idea what it is dispensing, but it can dispense it.</li>
+<li><code>recipe</code>: A recipe is a listing of all of the liquids which need to be mixed (by name) and how much of each of them to make a givent quantity (in <em>mL</em>). Recipes also include information about user interactions, such as, if the drink should be mixed or stirred, or if ice should be added. Recipes have names and cam be looked up.</li>
+<li><code>mixer</code>: A <code>mixer</code> contains a list of named <code>dispensers</code>. The <code>dispensers</code> get there name from a configuration file, or from the <code>api</code>, the <code>mixer</code> also sends down information about the liquid levels. A <code>mixer</code> creates a drink by taking a <code>recipe</code> and <code>quantity</code> as input. System status information is relayed through the <code>mixer</code> to the LEDs</li>
+</ul>
+<p>The goal is to create a service which will provide an HTTP API using one of
+Rust's web micro-frameworks (
+<a href="https://github.com/iron/iron">Iron</a>,
+<a href="https://github.com/fengsp/pencil">pencil</a>,
+<a href="https://github.com/SergioBenitez/Rocket">rocket</a>, etc.). After that is tested
+I will begin work on a basic frontend.</p>
           <aside class="copyright" role="note">
             
             Documentation built with
@@ -367,7 +291,7 @@ https://fedorahosted.org/copr/wiki/HowToEnableRepo</p>
   <nav class="pagination" aria-label="Footer">
     <div class="previous">
       
-        <a href="../../doc/rusty_nail/" title="Documentation">
+        <a href="../2016-12-22-air-pump-test/" title="Test Of Air Pump">
           <span class="direction">
             Previous
           </span>
@@ -377,7 +301,7 @@ https://fedorahosted.org/copr/wiki/HowToEnableRepo</p>
             </div>
             <div class="stretch">
               <div class="title">
-                Documentation
+                Test Of Air Pump
               </div>
             </div>
           </div>
@@ -385,22 +309,6 @@ https://fedorahosted.org/copr/wiki/HowToEnableRepo</p>
       
     </div>
     <div class="next">
-      
-        <a href="../2016-12-13-blinking-a-led-with-rust/" title="Blinking An LED With Rust">
-          <span class="direction">
-            Next
-          </span>
-          <div class="page">
-            <div class="stretch">
-              <div class="title">
-                Blinking An LED With Rust
-              </div>
-            </div>
-            <div class="button button-next" role="button" aria-label="Next">
-              <i class="icon icon-forward"></i>
-            </div>
-          </div>
-        </a>
       
     </div>
   </nav>
