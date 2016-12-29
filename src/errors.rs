@@ -1,5 +1,9 @@
 pub enum RustyNailError {
     CommunicationFailed,
+    DispenserEmpty,
+    NotEnoughLiquid,
+    NotImplemented,
+    NoPwmDriver,
     GenericError,
 }
 
