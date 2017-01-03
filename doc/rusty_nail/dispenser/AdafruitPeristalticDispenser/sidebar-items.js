@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["AdafruitPeristalticDispenser","An implementation of a Dispenser which works with the Adafruit 12V DC Peristaltic Pumps. These pumps have the following parameters:"]]});
