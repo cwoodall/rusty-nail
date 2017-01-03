@@ -1,4 +1,4 @@
-# Moving Errors To Error Chain
+## Moving Errors To Error Chain
 
 After doing some research on different ways of handling errors, and the
 chaining of errors from different modules, I found the
@@ -41,5 +41,26 @@ error_chain! {
     }
 }
 ```
+
+## Simple Dispenser Implementation for Adafruit Peristaltic Pump
+
+Currently I am making an assumption that the peristaltic pump will respond
+linearly to the duty cycle with 100% duty cycle corresponding to the max
+flow rate and 50% corresponding to 50% of the max flow rate. This is an  over
+simplification, but will provide sufficient results for the time being.s
+
+## Starting to Design the `Mixer` Struct
+
+The `Mixers` are essentially a `HashMap` of `String`'s mapping to Dispensers.
+Because the Dispensers are a trait object they must be `Box<Dispenser>`s. The
+plan is to implement the following:
+
+- `clear`
+- `add`
+- `remove`
+- `get`
+- `iter`
+- `make_recipe`
+- `status`
 
 [error-chain]: https://docs.rs/error-chain/0.7.2/error_chain/
