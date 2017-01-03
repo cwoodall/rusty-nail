@@ -224,8 +224,28 @@
     </a>
     
       
-        
       
+        <ul>
+          
+            <li class="anchor">
+              <a title="Moving Errors To Error Chain" href="#moving-errors-to-error-chain">
+                Moving Errors To Error Chain
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Simple Dispenser Implementation for Adafruit Peristaltic Pump" href="#simple-dispenser-implementation-for-adafruit-peristaltic-pump">
+                Simple Dispenser Implementation for Adafruit Peristaltic Pump
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="Starting to Design the Mixer Struct" href="#starting-to-design-the-mixer-struct">
+                Starting to Design the Mixer Struct
+              </a>
+            </li>
+          
+        </ul>
       
     
   </li>
@@ -245,7 +265,9 @@
       <article class="article">
         <div class="wrapper">
           
-          <h1 id="moving-errors-to-error-chain">Moving Errors To Error Chain</h1>
+            <h1>Moving Error Handling to Error Chains</h1>
+          
+          <h2 id="moving-errors-to-error-chain">Moving Errors To Error Chain</h2>
 <p>After doing some research on different ways of handling errors, and the
 chaining of errors from different modules, I found the
 <a href="https://docs.rs/error-chain/0.7.2/error_chain/">error-chain</a> library. This allows for the use of a
@@ -283,6 +305,25 @@ error_chain! {
     }
 }
 </code></pre>
+
+<h2 id="simple-dispenser-implementation-for-adafruit-peristaltic-pump">Simple Dispenser Implementation for Adafruit Peristaltic Pump</h2>
+<p>Currently I am making an assumption that the peristaltic pump will respond
+linearly to the duty cycle with 100% duty cycle corresponding to the max
+flow rate and 50% corresponding to 50% of the max flow rate. This is an  over
+simplification, but will provide sufficient results for the time being.s</p>
+<h2 id="starting-to-design-the-mixer-struct">Starting to Design the <code>Mixer</code> Struct</h2>
+<p>The <code>Mixers</code> are essentially a <code>HashMap</code> of <code>String</code>'s mapping to Dispensers.
+Because the Dispensers are a trait object they must be <code>Box&lt;Dispenser&gt;</code>s. The
+plan is to implement the following:</p>
+<ul>
+<li><code>clear</code></li>
+<li><code>add</code></li>
+<li><code>remove</code></li>
+<li><code>get</code></li>
+<li><code>iter</code></li>
+<li><code>make_recipe</code></li>
+<li><code>status</code></li>
+</ul>
           <aside class="copyright" role="note">
             
             Documentation built with
