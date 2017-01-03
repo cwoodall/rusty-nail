@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["Error",""],["Polarity",""]],"struct":[["Pwm",""],["PwmChip",""]],"type":[["Result",""]]});
