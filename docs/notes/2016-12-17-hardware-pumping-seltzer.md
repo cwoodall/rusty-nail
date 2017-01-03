@@ -16,4 +16,4 @@ simple prototype and less prone to catastrophic failure.
 | Silicone RTV 4500 FDA Grade High Strength Silicone Sealant, Clear (2.8 fl.oz) | Amazon | ? | [amazon](https://www.amazon.com/Silicone-Grade-Strength-Sealant-Clear/dp/B00NU6VN6G/ref=sr_1_7?ie=UTF8&qid=1482094725&sr=8-7&keywords=food+safe+epoxy) | $5.17 |
 | Soda Bottle Top | | | Source from anywhere | $0 |
 
-Total cost for prototype: $41.56 
+Total cost for prototype: $41.56

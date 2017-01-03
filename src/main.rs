@@ -2,12 +2,13 @@
 #![warn(missing_docs)]
 //!
 
+#[macro_use]
+extern crate error_chain;
+extern crate sysfs_pwm;
+
 mod dispenser;
 mod errors;
 
-use dispenser::Dispenser;
-extern crate sysfs_pwm;
-use errors::RustyNailResult;
-
+use dispenser::AdafruitPeristalticDispenser;
 
 fn main() {}

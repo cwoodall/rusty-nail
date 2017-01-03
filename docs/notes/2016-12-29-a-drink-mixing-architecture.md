@@ -15,9 +15,9 @@ website will be dealt with later.
 
 ![Architecture](../assets/images/architecture/rusty-nail-architecture-001.svg)
 
-Some terms that will be used in the project:
+Some terms that are in the diagram:
 
-- `dispenser`: Is an abstraction of the pump. it maintains state of how much liquid is in it, how to pump it at a given rate, and how to pump a given quantity. This has no idea what it is dispensing, but it can dispense it.
+- `dispenser`: Is an abstraction of the pump. it maintains state of how much liquid is in it, how to pump it at a given rate, and how to pump a given quantity.
 - `recipe`: A recipe is a listing of all of the liquids which need to be mixed (by name) and how much of each of them to make a givent quantity (in _mL_). Recipes also include information about user interactions, such as, if the drink should be mixed or stirred, or if ice should be added. Recipes have names and cam be looked up.
 - `mixer`: A `mixer` contains a list of named `dispensers`. The `dispensers` get there name from a configuration file, or from the `api`, the `mixer` also sends down information about the liquid levels. A `mixer` creates a drink by taking a `recipe` and `quantity` as input. System status information is relayed through the `mixer` to the LEDs
 

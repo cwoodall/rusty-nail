@@ -41,7 +41,7 @@ sysfs-pwm = {git="https://github.com/posborne/rust-sysfs-pwm.git", branch="maste
 
 The following script works using sysfs-pwm
 
-```
+```rust
 extern crate sysfs_pwm;
 use sysfs_pwm::{Pwm, Result};
 
