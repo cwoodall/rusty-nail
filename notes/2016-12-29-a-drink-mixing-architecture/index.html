@@ -263,9 +263,9 @@ picture was taken from a quick sketch I did, but I believe it has the
 core pieces. This architecture only goes up to the <code>web api</code>. The front-end
 website will be dealt with later.</p>
 <p><img alt="Architecture" src="../../assets/images/architecture/rusty-nail-architecture-001.svg" /></p>
-<p>Some terms that will be used in the project:</p>
+<p>Some terms that are in the diagram:</p>
 <ul>
-<li><code>dispenser</code>: Is an abstraction of the pump. it maintains state of how much liquid is in it, how to pump it at a given rate, and how to pump a given quantity. This has no idea what it is dispensing, but it can dispense it.</li>
+<li><code>dispenser</code>: Is an abstraction of the pump. it maintains state of how much liquid is in it, how to pump it at a given rate, and how to pump a given quantity.</li>
 <li><code>recipe</code>: A recipe is a listing of all of the liquids which need to be mixed (by name) and how much of each of them to make a givent quantity (in <em>mL</em>). Recipes also include information about user interactions, such as, if the drink should be mixed or stirred, or if ice should be added. Recipes have names and cam be looked up.</li>
 <li><code>mixer</code>: A <code>mixer</code> contains a list of named <code>dispensers</code>. The <code>dispensers</code> get there name from a configuration file, or from the <code>api</code>, the <code>mixer</code> also sends down information about the liquid levels. A <code>mixer</code> creates a drink by taking a <code>recipe</code> and <code>quantity</code> as input. System status information is relayed through the <code>mixer</code> to the LEDs</li>
 </ul>

@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="API documentation for the Rust `rusty_nail` crate.">
-    <meta name="keywords" content="rust, rustlang, rust-lang, rusty_nail">
+    <meta name="description" content="Source to the Rust file `src/errors.rs`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang">
 
-    <title>rusty_nail - Rust</title>
+    <title>errors.rs.html -- source</title>
 
-    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
-    <link rel="stylesheet" type="text/css" href="../main.css">
+    <link rel="stylesheet" type="text/css" href="../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../main.css">
     
 
     
@@ -28,7 +28,7 @@
 
     <nav class="sidebar">
         
-        <p class='location'></p><script>window.sidebarCurrent = {name: 'rusty_nail', ty: 'mod', relpath: '../'};</script>
+        
     </nav>
 
     <nav class="sub">
@@ -42,13 +42,51 @@
         </form>
     </nav>
 
-    <section id='main' class="content mod">
-<h1 class='fqn'><span class='in-band'>Crate <a class='mod' href=''>rusty_nail</a></span><span class='out-of-band'><span id='render-detail'>
-                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
-                       [<span class='inner'>&#x2212;</span>]
-                   </a>
-               </span><a id='src-0' class='srclink' href='../src/rusty_nail/src/main.rs.html#1-14' title='goto source code'>[src]</a></span></h1>
-<div class='docblock'></div></section>
+    <section id='main' class="content source"><pre class="line-numbers"><span id="1"> 1</span>
+<span id="2"> 2</span>
+<span id="3"> 3</span>
+<span id="4"> 4</span>
+<span id="5"> 5</span>
+<span id="6"> 6</span>
+<span id="7"> 7</span>
+<span id="8"> 8</span>
+<span id="9"> 9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+</pre><pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>sysfs_pwm</span>;
+
+<span class='comment'>// Define the errors for this crate.</span>
+<span class='macro'>error_chain</span><span class='macro'>!</span> {
+    <span class='ident'>types</span> {
+        <span class='ident'>Error</span>, <span class='ident'>ErrorKind</span>, <span class='ident'>ResultExt</span>, <span class='prelude-ty'>Result</span>;
+    }
+
+    <span class='ident'>links</span> {}
+
+    <span class='ident'>foreign_links</span> {
+        <span class='ident'>PwmError</span>(<span class='ident'>sysfs_pwm</span>::<span class='ident'>Error</span>);
+    }
+
+    <span class='ident'>errors</span> {
+        <span class='ident'>NotEnoughLiquid</span>(<span class='ident'>level</span>: <span class='ident'>f64</span>) {
+            <span class='ident'>description</span>(<span class='string'>&quot;There is not enough liquid in the current dispense&quot;</span>)
+            <span class='ident'>display</span>(<span class='string'>&quot;There is currently {} mL left in the dispenser, this is not enough.&quot;</span>, <span class='ident'>level</span>)
+        }
+    }
+}
+</pre>
+</section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
@@ -102,11 +140,11 @@
     
 
     <script>
-        window.rootPath = "../";
+        window.rootPath = "../../../";
         window.currentCrate = "rusty_nail";
     </script>
-    <script src="../jquery.js"></script>
-    <script src="../main.js"></script>
-    <script defer src="../search-index.js"></script>
+    <script src="../../../jquery.js"></script>
+    <script src="../../../main.js"></script>
+    <script defer src="../../../search-index.js"></script>
 </body>
 </html>
