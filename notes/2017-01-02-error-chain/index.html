@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     
       
-        <title>Documentation - Rusty Nail Notes and Documentation</title>
+        <title>Moving Error Handling to Error Chains - Rusty Nail Notes and Documentation</title>
       
       
       
@@ -85,9 +85,13 @@
         
           <span class="path">
             
+              
+                Notes <i class="icon icon-link"></i>
+              
+            
           </span>
         
-        Documentation
+        Moving Error Handling to Error Chains
       </div>
     </div>
     
@@ -147,12 +151,9 @@
           
             
   <li>
-    <a class="current" title="Documentation" href="./">
+    <a class="" title="Documentation" href="../../doc/rusty_nail/">
       Documentation
     </a>
-    
-      
-      
     
   </li>
 
@@ -164,7 +165,7 @@
       
         
   <li>
-    <a class="" title="Setting Up A Beaglebone With Rust" href="../../notes/2016-12-11-setting-up-beaglebone-with-rust/">
+    <a class="" title="Setting Up A Beaglebone With Rust" href="../2016-12-11-setting-up-beaglebone-with-rust/">
       Setting Up A Beaglebone With Rust
     </a>
     
@@ -173,7 +174,7 @@
       
         
   <li>
-    <a class="" title="Blinking An LED With Rust" href="../../notes/2016-12-13-blinking-a-led-with-rust/">
+    <a class="" title="Blinking An LED With Rust" href="../2016-12-13-blinking-a-led-with-rust/">
       Blinking An LED With Rust
     </a>
     
@@ -182,7 +183,7 @@
       
         
   <li>
-    <a class="" title="PWM With Rust" href="../../notes/2016-12-15-pwming-with-rust/">
+    <a class="" title="PWM With Rust" href="../2016-12-15-pwming-with-rust/">
       PWM With Rust
     </a>
     
@@ -191,7 +192,7 @@
       
         
   <li>
-    <a class="" title="Parts For A Seltzer Air Pump" href="../../notes/2016-12-17-hardware-pumping-seltzer/">
+    <a class="" title="Parts For A Seltzer Air Pump" href="../2016-12-17-hardware-pumping-seltzer/">
       Parts For A Seltzer Air Pump
     </a>
     
@@ -200,7 +201,7 @@
       
         
   <li>
-    <a class="" title="Test Of Air Pump" href="../../notes/2016-12-22-air-pump-test/">
+    <a class="" title="Test Of Air Pump" href="../2016-12-22-air-pump-test/">
       Test Of Air Pump
     </a>
     
@@ -209,7 +210,7 @@
       
         
   <li>
-    <a class="" title="A Drink Mixing Architecture" href="../../notes/2016-12-29-a-drink-mixing-architecture/">
+    <a class="" title="A Drink Mixing Architecture" href="../2016-12-29-a-drink-mixing-architecture/">
       A Drink Mixing Architecture
     </a>
     
@@ -218,9 +219,14 @@
       
         
   <li>
-    <a class="" title="Moving Error Handling to Error Chains" href="../../notes/2017-01-02-error-chain/">
+    <a class="current" title="Moving Error Handling to Error Chains" href="./">
       Moving Error Handling to Error Chains
     </a>
+    
+      
+        
+      
+      
     
   </li>
 
@@ -239,9 +245,44 @@
       <article class="article">
         <div class="wrapper">
           
-            <h1>Documentation</h1>
-          
-          
+          <h1 id="moving-errors-to-error-chain">Moving Errors To Error Chain</h1>
+<p>After doing some research on different ways of handling errors, and the
+chaining of errors from different modules, I found the
+<a href="https://docs.rs/error-chain/0.7.2/error_chain/">error-chain</a> library. This allows for the use of a
+standard way of creating the <code>errors.rs</code> file for your module.
+The <a href="https://doc.rust-lang.org/book/error-handling.html">rust-lang book entry on error handling</a> has a
+good entry on error handling and why each step is important. I reccomend
+going through this tutorial.</p>
+<p>However, <code>error-chain</code> more or less takes the canonical methodology,
+which has a lot of boiler plate, this allows you to create <code>Error</code>,
+<code>Result</code>, and <code>ErrorKind</code> types which can be properly <code>Box</code>ed and
+wrapped using the <code>From::from</code> trait so that all <code>Error</code> types appear
+to be the same trait object. The most compelling feature of
+<code>error-chain</code> for me is that it can also convert Error types or enums
+from other libraries into part of your 'error chain'.</p>
+<p>For example:</p>
+<pre><code class="rust">use sysfs_pwm;
+
+// Define the errors for this crate.
+error_chain! {
+    types {
+        Error, ErrorKind, ResultExt, Result;
+    }
+
+    links {}
+
+    foreign_links {
+        PwmError(sysfs_pwm::Error);
+    }
+
+    errors {
+        NotEnoughLiquid(level: f64) {
+            description(&quot;There is not enough liquid in the current dispense&quot;)
+            display(&quot;There is currently {} mL left in the dispenser, this is not enough.&quot;, level)
+        }
+    }
+}
+</code></pre>
           <aside class="copyright" role="note">
             
             Documentation built with
@@ -258,7 +299,7 @@
   <nav class="pagination" aria-label="Footer">
     <div class="previous">
       
-        <a href="../.." title="Index">
+        <a href="../2016-12-29-a-drink-mixing-architecture/" title="A Drink Mixing Architecture">
           <span class="direction">
             Previous
           </span>
@@ -268,7 +309,7 @@
             </div>
             <div class="stretch">
               <div class="title">
-                Index
+                A Drink Mixing Architecture
               </div>
             </div>
           </div>
@@ -276,22 +317,6 @@
       
     </div>
     <div class="next">
-      
-        <a href="../../notes/2016-12-11-setting-up-beaglebone-with-rust/" title="Setting Up A Beaglebone With Rust">
-          <span class="direction">
-            Next
-          </span>
-          <div class="page">
-            <div class="stretch">
-              <div class="title">
-                Setting Up A Beaglebone With Rust
-              </div>
-            </div>
-            <div class="button button-next" role="button" aria-label="Next">
-              <i class="icon icon-forward"></i>
-            </div>
-          </div>
-        </a>
       
     </div>
   </nav>
