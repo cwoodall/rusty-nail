@@ -5,9 +5,9 @@
 #[macro_use]
 extern crate error_chain;
 extern crate sysfs_pwm;
-
 mod dispenser;
 mod errors;
+mod mixer;
 
 use dispenser::AdafruitPeristalticDispenser;
 

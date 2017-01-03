@@ -1,5 +1,4 @@
 //! Testing module level documentation
-//!
 
 pub mod AdafruitPeristalticDispenser;
 
