@@ -11,7 +11,7 @@ revision.
 ## Development Log
 
 I have been keeping a set of development notes in this repository, to see them
-please see the [`notes` folder](notes). Below I have tagged some useful notes:
+please see the [`notes` folder](docs/notes). Below I have tagged some useful notes:
 
 - :star: [Setting up a beaglebone with rust](docs/assets/notes/2016-12-11-setting-up-beaglebone-with-rust.md)
 - :star: [Blinking a LED with Rust](docs/assets/notes/2016-12-13-blinking-a-led-with-rust.md)
