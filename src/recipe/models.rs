@@ -13,29 +13,19 @@ pub struct NewRecipe<'a> {
     pub name: &'a str,
     pub description: &'a str,
 }
-#[derive(Insertable)]
-#[table_name="dispensers"]
-pub struct NewDispenser<'a> {
-    pub name: &'a str,
-}
 
 #[derive(Queryable)]
-pub struct Dispenser {
+pub struct RecipeIngredient {
     pub id: i32,
-    pub name: String,
-}
-
-#[derive(Insertable)]
-#[table_name="recipe_dispensers"]
-pub struct NewRecipeDispenser {
     pub recipe_id: i32,
-    pub dispense_id: i32,
+    pub name: String,
     pub amount: f32,
 }
-#[derive(Queryable)]
-pub struct RecipeDispenser {
-    pub id: i32,
+
+#[derive(Insertable)]
+#[table_name="recipe_ingredients"]
+pub struct NewRecipeIngredient<'a> {
     pub recipe_id: i32,
-    pub dispense_id: String,
+    pub name: &'a str,
     pub amount: f32,
 }

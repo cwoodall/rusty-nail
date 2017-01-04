@@ -4,14 +4,9 @@ CREATE TABLE recipes (
   description TEXT NOT NULL
 );
 
-CREATE TABLE dispensers (
-  id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-  name VARCHAR NOT NULL
-);
-
-CREATE TABLE recipe_dispensers (
+CREATE TABLE recipe_ingredients (
   id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   recipe_id INTEGER NOT NULL,
-  dispense_id INTEGER NOT NULL,
+  name VARCHAR NOT NULL,
   amount REAL NOT NULL
 );
