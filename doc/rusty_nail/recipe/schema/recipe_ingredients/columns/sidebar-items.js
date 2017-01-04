@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["amount",""],["id",""],["name",""],["recipe_id",""],["star",""]]});
