@@ -25,7 +25,7 @@ pub trait Dispenser {
 // Tests
 #[allow(dead_code)]
 #[derive(Debug)]
-struct TestDispenser {
+pub struct TestDispenser {
     pub max_flow_rate: f64,
     pub fluid_level: f64,
 }
@@ -64,13 +64,32 @@ impl Dispenser for TestDispenser {
 
     /// Dispense some quantity of liquid in mL.
     fn dispense(&mut self, quantity: f64) -> Result<f64> {
-        Ok(quantity)
+        if quantity > self.fluid_level {
+            Err(ErrorKind::NotEnoughLiquid(self.fluid_level).into())
+        } else {
+            self.fluid_level = self.fluid_level - quantity;
+            Ok(self.fluid_level)
+        }
     }
 }
 
 #[test]
-fn makeTestDispenser() {
+fn test_make_dispenser() {
     let a = TestDispenser::new(1.1, 2.2);
 
-    println!("{:?}", a.max_flow_rate);
+    assert!(a.max_flow_rate == 1.1);
+}
+
+#[test]
+fn test_dispense_decreases() {
+    let mut a = TestDispenser::new(1.1, 2.2);
+
+    a.dispense(0.1).unwrap();
+
+    println!("{:?}", a);
+    assert!(a.fluid_level == 2.1);
+
+    let b = a.dispense(3.0);
+
+    assert!(b.is_err())
 }

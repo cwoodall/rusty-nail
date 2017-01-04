@@ -1,4 +1,5 @@
 use sysfs_pwm;
+use diesel;
 
 // Define the errors for this crate.
 error_chain! {
@@ -10,6 +11,7 @@ error_chain! {
 
     foreign_links {
         PwmError(sysfs_pwm::Error) #[doc = "PwmError"];
+        DatabaseError(diesel::result::Error);
     }
 
     errors {

@@ -47,7 +47,7 @@ impl AdafruitPeristalticDispenser {
     /// Returns:
     ///
     /// * An error if setting the PWM chip is not found or AdafruitPeristalticDispenser.
-    fn new(chip: u32, number: u32) -> Result<AdafruitPeristalticDispenser> {
+    pub fn new(chip: u32, number: u32) -> Result<AdafruitPeristalticDispenser> {
         let pwm: Pwm = try!(Pwm::new(chip, number));
         Ok(AdafruitPeristalticDispenser {
             pwm: pwm,
@@ -72,7 +72,7 @@ impl AdafruitPeristalticDispenser {
     /// * The duty_cycle in nanoseconds.
     /// * The wait time in milliseconds.
     fn calculate_dispense_parameters(&self, quantity_mL: f64) -> Result<(u32, u64)> {
-        if (self.target_flow_rate_mL_per_s > self.max_flow_rate_mL_per_s) {
+        if self.target_flow_rate_mL_per_s > self.max_flow_rate_mL_per_s {
             Err(ErrorKind::TargetFlowRateOutOfRange.into())
         } else {
             let duty_cycle: u32 =
@@ -124,4 +124,10 @@ impl Dispenser for AdafruitPeristalticDispenser {
         self.target_flow_rate_mL_per_s = rate;
         Ok(())
     }
+}
+
+#[test]
+#[should_panic]
+fn test_dispenser() {
+    let mut a = AdafruitPeristalticDispenser::new(100, 200).unwrap();
 }

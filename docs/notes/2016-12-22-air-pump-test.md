@@ -43,4 +43,4 @@ forward to me. It should work well.
 
 ## Resources
 
-- See [the previous post](2016-12-17-hardware-pumping-seltzer.md) for the parts list.
+- See [the previous recipe](2016-12-17-hardware-pumping-seltzer.md) for the parts list.
