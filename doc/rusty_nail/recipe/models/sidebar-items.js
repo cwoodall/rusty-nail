@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["NewRecipe",""],["NewRecipeIngredient",""],["Recipe",""],["RecipeIngredient",""]]});
