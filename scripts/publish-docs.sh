@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-cargo rustdoc -- --no-defaults --passes "collapse-docs" --passes "unindent-comments"
+cargo doc --no-deps
 mkdocs gh-deploy
 
 git checkout gh-pages
