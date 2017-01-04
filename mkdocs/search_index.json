@@ -117,7 +117,7 @@
         },
         {
             "location": "/notes/2016-12-22-air-pump-test/",
-            "text": "Experimenting with Air Pump Hardware\n\n\nOrder from 2016-12-17 came in.\n\n\nConstruction\n\n\n\n\nTook a seltzer bottle cap and drilled two 1/4\" holes in it.\n\n\n\n\n\n   \n\n   \n\n2. Cut the 3/16\" ID, 1/4\" OD tubing into two pieces. The lengths will depend on your setup. One piece will feed from the cap to the motor and the other from the bottom of the container (through the cap) to the cup that the drink is being mixed into.\n  \n\n  \n\n  \n\n  - Note: the tubing is flimsy with 1/32\" wall, but fits perfectly and tightly enough I did not need to use the silicone sealant to create a gasket/seal. This is good since it allows me to experiment with different bottles, and also clean the tubing easier and just throw out used/old caps.\n3. I made sure one piece just passed 1/2\" or so through the cap and the other tube went to the bottom of the bottle, with enough room to not have the flow disrupted by the bottom of the container.\n\n\n\n   \n\n   \n\n\n\n4. Hooked the end which only goes a short distance into the bottle to the air pump.\n5. Done!\n\n\nTest Procedure\n\n\n\n\n\n\nHooked up 12V accross pump, do to the construction of the pump the polarity did not matter. the nozzle that broke off in shipment was for running the device as a vaccuum. I can still use the pump. It pumps in either direction, so polarity does not seem to matter.\n\n\n\n\n\n\nOnce I turned on power the pump ran and the air started pumping. It used a lot of current to keep the motor running (No measurements yet). There was a lot of vibration, and the motor bounced itself across my table. I am uncertain about how to mount it yet since there are no mounting flanges and my base is not sturdy enough for the vibrations. I want to try it with carboanted beverages next to make sure it will work well with them.\n\n\n\n\n\n\nVideo\n\n\n\n\nConclusion\n\n\nSeems to work pretty well. I do need to measure pump\nrates, but other than that it seems pretty straight\nforward to me. It should work well.\n\n\nResources\n\n\n\n\nSee \nthe previous post\n for the parts list.",
+            "text": "Experimenting with Air Pump Hardware\n\n\nOrder from 2016-12-17 came in.\n\n\nConstruction\n\n\n\n\nTook a seltzer bottle cap and drilled two 1/4\" holes in it.\n\n\n\n\n\n   \n\n   \n\n2. Cut the 3/16\" ID, 1/4\" OD tubing into two pieces. The lengths will depend on your setup. One piece will feed from the cap to the motor and the other from the bottom of the container (through the cap) to the cup that the drink is being mixed into.\n  \n\n  \n\n  \n\n  - Note: the tubing is flimsy with 1/32\" wall, but fits perfectly and tightly enough I did not need to use the silicone sealant to create a gasket/seal. This is good since it allows me to experiment with different bottles, and also clean the tubing easier and just throw out used/old caps.\n3. I made sure one piece just passed 1/2\" or so through the cap and the other tube went to the bottom of the bottle, with enough room to not have the flow disrupted by the bottom of the container.\n\n\n\n   \n\n   \n\n\n\n4. Hooked the end which only goes a short distance into the bottle to the air pump.\n5. Done!\n\n\nTest Procedure\n\n\n\n\n\n\nHooked up 12V accross pump, do to the construction of the pump the polarity did not matter. the nozzle that broke off in shipment was for running the device as a vaccuum. I can still use the pump. It pumps in either direction, so polarity does not seem to matter.\n\n\n\n\n\n\nOnce I turned on power the pump ran and the air started pumping. It used a lot of current to keep the motor running (No measurements yet). There was a lot of vibration, and the motor bounced itself across my table. I am uncertain about how to mount it yet since there are no mounting flanges and my base is not sturdy enough for the vibrations. I want to try it with carboanted beverages next to make sure it will work well with them.\n\n\n\n\n\n\nVideo\n\n\n\n\nConclusion\n\n\nSeems to work pretty well. I do need to measure pump\nrates, but other than that it seems pretty straight\nforward to me. It should work well.\n\n\nResources\n\n\n\n\nSee \nthe previous recipe\n for the parts list.",
             "title": "Test Of Air Pump"
         },
         {
@@ -147,7 +147,7 @@
         },
         {
             "location": "/notes/2016-12-22-air-pump-test/#resources",
-            "text": "See  the previous post  for the parts list.",
+            "text": "See  the previous recipe  for the parts list.",
             "title": "Resources"
         },
         {
@@ -189,6 +189,41 @@
             "location": "/notes/2017-01-02-error-chain/#starting-to-design-the-mixer-struct",
             "text": "The  Mixers  are essentially a  HashMap  of  String 's mapping to Dispensers.\nBecause the Dispensers are a trait object they must be  Box<Dispenser> s. The\nplan is to implement the following:   clear  add  remove  get  iter  make_recipe  status",
             "title": "Starting to Design the Mixer Struct"
+        },
+        {
+            "location": "/notes/2017-01-03-implementing-mixer-and-recipes/",
+            "text": "Adding tests!\n\n\nI have found it useful to start writing unit tests. The Rust Book has a good\nchapter on \nunit testing\n in rust.\nFor now I am going to write tests inline in the modules using the following\ntemplate:\n\n\n#[cfg(test)]\nmod tests {\n  //  in\n  use dispenser::TestDispenser;\n  use mixer::Mixer;\n\n  #[test]\n  fn test_it_works() {\n  }\n}\n\n\n\n\nThere are a few other methods such as using the \ntests\n folder, but this is the\neasiest for me to work with at the moment. Another interesting option is to add\ndoc-test code. Which allows example code in your documentation to be tested\nand validated.\n\n\nImplementing the mixer struct\n\n\nThe \nMixers\n are essentially a \nHashMap\n of \nString\n's mapping to Dispensers.\nBecause the Dispensers are a trait object they must be \nBox<Dispenser>\ns. The\nplan is to implement the following:\n\n\n\n\n[x] \nclear\n\n\n[x] \nadd\n\n\n[x] \nremove\n\n\n[x] \nget\n\n\n[ ] \nmix\n (\nmake_recipe\n in the previous recipe).\n\n\n[ ] \nstatus\n\n\n\n\nSetting Up Recipes\n\n\nDiesel with SQLite\n\n\nI want the recipes to be installed in a database, for this section I am going\nto use \ndiesel-rs\n and sqlite3 (which\nis great for embedded systems, but not webapps). This will require moving to\nnightly builds of rust (which is easy with \nrustup\n):\n\n\n$ rustup install nightly\n$ rustup default nightly\n\n\n\n\nAlso changing the reccomended Cargo.toml addition a little:\n\n\ndiesel = \"0.9.0\"\ndiesel_codegen = { version = \"0.9.0\", features = [\"sqlite\"] }\ndotenv = \"0.8.0\"\n\n\n\n\nMake the database\n\n\nFirst lets make the database and setup \ndotenv\n for diesel:\n\n\n$ echo DATABASE_URL=$PWD/rusty_nail.db > .env\n$ diesel setup\n\n\n\n\nThen write the \nup.sql\n and \ndown.sql\n for the migration:\n\n\nup.sql:\n\n\nCREATE TABLE recipes (\n  id INTEGER PRIMARY KEY,\n  name VARCHAR NOT NULL,\n  description TEXT NOT NULL\n);\n\nCREATE TABLE dispenser (\n  id INTEGER PRIMARY KEY,\n  name VARCHAR NOT NULL\n);\n\nCREATE TABLE recipe_dispensers (\n  recipe_id INTEGER NOT NULL,\n  dispense_id INTEGER NOT NULL,\n  amount REAL NOT NULL\n);\n\n\n\n\nand run the migration\n\n\n$ diesel migration run\n\n\n\n\nOther Notes\n\n\n\n\nUse \nuse diesel::sqlite::SqliteConnection;\n instead of \nuse diesel::pg::PgConnection;\n\n\nget_result()\n is not supported for Sqlite insertions so:\n  \ndiesel::insert(&new_recipe).into(recipes::table)\n    .get_result(conn)\n    .expect(\"Error saving new recipe\")\n\n\n\n\nFrom the demo does not work properly Instead you can use.\n\n\ndiesel::insert(&new_recipe).into(recipe::table)\n    .execute(conn)\n    .expect(\"Error saving new recipe\")\n\n\nWhich returns \nusize\n instead of a Recipe.",
+            "title": "Implementing Mixer and Recipes"
+        },
+        {
+            "location": "/notes/2017-01-03-implementing-mixer-and-recipes/#adding-tests",
+            "text": "I have found it useful to start writing unit tests. The Rust Book has a good\nchapter on  unit testing  in rust.\nFor now I am going to write tests inline in the modules using the following\ntemplate:  #[cfg(test)]\nmod tests {\n  //  in\n  use dispenser::TestDispenser;\n  use mixer::Mixer;\n\n  #[test]\n  fn test_it_works() {\n  }\n}  There are a few other methods such as using the  tests  folder, but this is the\neasiest for me to work with at the moment. Another interesting option is to add\ndoc-test code. Which allows example code in your documentation to be tested\nand validated.",
+            "title": "Adding tests!"
+        },
+        {
+            "location": "/notes/2017-01-03-implementing-mixer-and-recipes/#implementing-the-mixer-struct",
+            "text": "The  Mixers  are essentially a  HashMap  of  String 's mapping to Dispensers.\nBecause the Dispensers are a trait object they must be  Box<Dispenser> s. The\nplan is to implement the following:   [x]  clear  [x]  add  [x]  remove  [x]  get  [ ]  mix  ( make_recipe  in the previous recipe).  [ ]  status",
+            "title": "Implementing the mixer struct"
+        },
+        {
+            "location": "/notes/2017-01-03-implementing-mixer-and-recipes/#setting-up-recipes",
+            "text": "",
+            "title": "Setting Up Recipes"
+        },
+        {
+            "location": "/notes/2017-01-03-implementing-mixer-and-recipes/#diesel-with-sqlite",
+            "text": "I want the recipes to be installed in a database, for this section I am going\nto use  diesel-rs  and sqlite3 (which\nis great for embedded systems, but not webapps). This will require moving to\nnightly builds of rust (which is easy with  rustup ):  $ rustup install nightly\n$ rustup default nightly  Also changing the reccomended Cargo.toml addition a little:  diesel = \"0.9.0\"\ndiesel_codegen = { version = \"0.9.0\", features = [\"sqlite\"] }\ndotenv = \"0.8.0\"",
+            "title": "Diesel with SQLite"
+        },
+        {
+            "location": "/notes/2017-01-03-implementing-mixer-and-recipes/#make-the-database",
+            "text": "First lets make the database and setup  dotenv  for diesel:  $ echo DATABASE_URL=$PWD/rusty_nail.db > .env\n$ diesel setup  Then write the  up.sql  and  down.sql  for the migration:  up.sql:  CREATE TABLE recipes (\n  id INTEGER PRIMARY KEY,\n  name VARCHAR NOT NULL,\n  description TEXT NOT NULL\n);\n\nCREATE TABLE dispenser (\n  id INTEGER PRIMARY KEY,\n  name VARCHAR NOT NULL\n);\n\nCREATE TABLE recipe_dispensers (\n  recipe_id INTEGER NOT NULL,\n  dispense_id INTEGER NOT NULL,\n  amount REAL NOT NULL\n);  and run the migration  $ diesel migration run",
+            "title": "Make the database"
+        },
+        {
+            "location": "/notes/2017-01-03-implementing-mixer-and-recipes/#other-notes",
+            "text": "Use  use diesel::sqlite::SqliteConnection;  instead of  use diesel::pg::PgConnection;  get_result()  is not supported for Sqlite insertions so:\n   diesel::insert(&new_recipe).into(recipes::table)\n    .get_result(conn)\n    .expect(\"Error saving new recipe\")   From the demo does not work properly Instead you can use.  diesel::insert(&new_recipe).into(recipe::table)\n    .execute(conn)\n    .expect(\"Error saving new recipe\")  Which returns  usize  instead of a Recipe.",
+            "title": "Other Notes"
         }
     ]
 }
