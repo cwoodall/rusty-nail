@@ -72,19 +72,15 @@ up.sql:
 
 ```
 CREATE TABLE recipes (
-  id INTEGER PRIMARY KEY,
+  id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   name VARCHAR NOT NULL,
   description TEXT NOT NULL
 );
 
-CREATE TABLE dispenser (
-  id INTEGER PRIMARY KEY,
-  name VARCHAR NOT NULL
-);
-
-CREATE TABLE recipe_dispensers (
+CREATE TABLE recipe_ingredients (
+  id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   recipe_id INTEGER NOT NULL,
-  dispense_id INTEGER NOT NULL,
+  name VARCHAR NOT NULL,
   amount REAL NOT NULL
 );
 ```
@@ -115,4 +111,4 @@ $ diesel migration run
 
   Which returns `usize` instead of a Recipe.
 
-  
+- Can't do many to many with diesel at the moment ([see](https://github.com/diesel-rs/diesel/issues/398))
