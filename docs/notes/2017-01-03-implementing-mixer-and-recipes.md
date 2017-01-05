@@ -128,4 +128,102 @@ $ diesel migration run
 
   Which returns `usize` instead of a Recipe.
 
-- Can't do many to many with diesel at the moment ([see](https://github.com/diesel-rs/diesel/issues/398))
+### The right query for stitching ingredients to recipes
+
+What we want to be able to do is for a given recipe look up the `Ingredient`
+and `RecipeIngredient` for all ingredients in a given recipe creating a vector
+of all relevant Ingrdient data ( not including primary and foreign keys):
+
+```
++-------------+           +------------------+                +-------------+
+| Recipe      |           | RecipeIngredient |                | Ingredient  |
++-------------+           +------------------+                +-------------+
+| id          |<---+      | id               |        +------>| id          |
+| name        |    +------| recipe_id        |        |       | name        |
+| description |           | ingredient_id    |--------+       | description |
+|             |           | amount           |                | available   |
++-------------+           +------------------+                +-------------+
+```
+
+To do this what we need to do is:
+
+1. Perform a query to find the Recipe we are interested in.
+2. Join the recipe_ingredients and ingrdients table using an inner join
+3. Filter the join on `recipe_ingredients::recipe_id` to just get those belonging
+   to our current recipe.
+4. create a `select` statement to discard unneeded content.
+
+We can then create a `Vec<String, String, i32, f32>` which can then correspond to
+a  `Queryable` struct we can create which is a fusion of RecipeIngredient and
+Ingredient in the following example called RecipeIngredientComplete... This may
+change to `DispenserInstruction` or may become the public
+representation of `Ingredient`. What would be ideal is to generate a
+representation of a `Recipe` which had the following structure definition:
+
+```
+struct MixerIngredient {
+    name: String,
+    description: String,
+    amount: f32
+}
+
+struct MixerRecipe {
+  name: String,
+  description: String,
+  ingredients: Vec<MixerIngredient>
+}
+```
+
+Here is an example query program:
+
+```rust
+#![feature(proc_macro)]
+extern crate rusty_nail;
+
+#[macro_use]
+extern crate diesel_codegen;
+#[macro_use]
+extern crate diesel;
+
+use self::rusty_nail::*;
+use self::rusty_nail::recipe::*;
+use self::rusty_nail::recipe::models::*;
+use self::rusty_nail::recipe::schema::recipes::dsl as recipes;
+use self::rusty_nail::recipe::schema::recipe_ingredients::dsl as recipe_ingredients;
+use self::rusty_nail::recipe::schema::ingredients::dsl as ingredients;
+use self::diesel::prelude::*;
+
+#[derive(Debug, Queryable)]
+struct RecipeIngredientComplete {
+    pub name: String,
+    pub description: String,
+    pub available: i32,
+    pub amount: f32,
+}
+
+fn main() {
+    let connection = establish_connection();
+
+    let results: Vec<Recipe> = recipes::recipes.load(&connection)
+        .expect("Error loading recipes");
+
+
+    println!("Displaying {} recipes", results.len());
+    for recipe in results {
+        println!("{:?}", recipe);
+
+        let ings: Vec<RecipeIngredientComplete> =
+            ingredients::ingredients.inner_join(recipe_ingredients::recipe_ingredients)
+                .filter(recipe_ingredients::recipe_id.eq(recipe.id))
+                .select((ingredients::name,
+                         ingredients::description,
+                         ingredients::available,
+                         recipe_ingredients::amount))
+                .load(&connection)
+                .unwrap();
+        for ingredient in ings {
+            println!("\t- {:?}", ingredient);
+        }
+    }
+}
+```
