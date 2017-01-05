@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["available",""],["description",""],["id",""],["name",""],["star",""]]});

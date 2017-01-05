@@ -1,1 +1,0 @@
-initSidebarItems({"mod":[["ingredients",""],["recipe_ingredients",""],["recipes",""]]});

@@ -1,1 +1,0 @@
-initSidebarItems({"fn":[["create_ingredient",""],["create_recipe",""],["create_recipe_ingredients",""],["establish_connection",""]],"mod":[["models",""],["schema",""]]});
