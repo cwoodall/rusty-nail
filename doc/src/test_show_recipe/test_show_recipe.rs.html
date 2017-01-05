@@ -67,29 +67,79 @@
 <span id="22">22</span>
 <span id="23">23</span>
 <span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
 </pre><pre class='rust '>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>proc_macro</span>)]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rusty_nail</span>;
+
+<span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>diesel_codegen</span>;
+<span class='attribute'>#[<span class='ident'>macro_use</span>]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>diesel</span>;
 
 <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>rusty_nail</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>rusty_nail</span>::<span class='ident'>recipe</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>rusty_nail</span>::<span class='ident'>recipe</span>::<span class='ident'>models</span>::<span class='op'>*</span>;
-<span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>rusty_nail</span>::<span class='ident'>recipe</span>::<span class='ident'>schema</span>;
-
+<span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>rusty_nail</span>::<span class='ident'>recipe</span>::<span class='ident'>schema</span>::<span class='ident'>recipes</span>::<span class='ident'>dsl</span> <span class='kw'>as</span> <span class='ident'>recipes</span>;
+<span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>rusty_nail</span>::<span class='ident'>recipe</span>::<span class='ident'>schema</span>::<span class='ident'>recipe_ingredients</span>::<span class='ident'>dsl</span> <span class='kw'>as</span> <span class='ident'>recipe_ingredients</span>;
+<span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>rusty_nail</span>::<span class='ident'>recipe</span>::<span class='ident'>schema</span>::<span class='ident'>ingredients</span>::<span class='ident'>dsl</span> <span class='kw'>as</span> <span class='ident'>ingredients</span>;
 <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>diesel</span>::<span class='ident'>prelude</span>::<span class='op'>*</span>;
 
-<span class='kw'>fn</span> <span class='ident'>main</span>() {
-    <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>rusty_nail</span>::<span class='ident'>recipe</span>::<span class='ident'>schema</span>::<span class='ident'>recipes</span>::<span class='ident'>dsl</span>::<span class='op'>*</span>;
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Queryable</span>)]</span>
+<span class='kw'>struct</span> <span class='ident'>RecipeIngredientComplete</span> {
+    <span class='kw'>pub</span> <span class='ident'>name</span>: <span class='ident'>String</span>,
+    <span class='kw'>pub</span> <span class='ident'>description</span>: <span class='ident'>String</span>,
+    <span class='kw'>pub</span> <span class='ident'>available</span>: <span class='ident'>i32</span>,
+    <span class='kw'>pub</span> <span class='ident'>amount</span>: <span class='ident'>f32</span>,
+}
 
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
     <span class='kw'>let</span> <span class='ident'>connection</span> <span class='op'>=</span> <span class='ident'>establish_connection</span>();
-    <span class='kw'>let</span> <span class='ident'>results</span> <span class='op'>=</span> <span class='ident'>recipes</span>.<span class='ident'>load</span>::<span class='op'>&lt;</span><span class='ident'>Recipe</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='ident'>connection</span>)
+
+    <span class='kw'>let</span> <span class='ident'>results</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Recipe</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>recipes</span>::<span class='ident'>recipes</span>.<span class='ident'>load</span>(<span class='kw-2'>&amp;</span><span class='ident'>connection</span>)
         .<span class='ident'>expect</span>(<span class='string'>&quot;Error loading recipes&quot;</span>);
+
 
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Displaying {} recipes&quot;</span>, <span class='ident'>results</span>.<span class='ident'>len</span>());
     <span class='kw'>for</span> <span class='ident'>recipe</span> <span class='kw'>in</span> <span class='ident'>results</span> {
-        <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>recipe</span>.<span class='ident'>name</span>);
-        <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;----------\n&quot;</span>);
-        <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>recipe</span>.<span class='ident'>description</span>);
+        <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>recipe</span>);
+
+        <span class='kw'>let</span> <span class='ident'>ings</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>RecipeIngredientComplete</span><span class='op'>&gt;</span> <span class='op'>=</span>
+            <span class='ident'>ingredients</span>::<span class='ident'>ingredients</span>.<span class='ident'>inner_join</span>(<span class='ident'>recipe_ingredients</span>::<span class='ident'>recipe_ingredients</span>)
+                .<span class='ident'>filter</span>(<span class='ident'>recipe_ingredients</span>::<span class='ident'>recipe_id</span>.<span class='ident'>eq</span>(<span class='ident'>recipe</span>.<span class='ident'>id</span>))
+                .<span class='ident'>select</span>((<span class='ident'>ingredients</span>::<span class='ident'>name</span>,
+                         <span class='ident'>ingredients</span>::<span class='ident'>description</span>,
+                         <span class='ident'>ingredients</span>::<span class='ident'>available</span>,
+                         <span class='ident'>recipe_ingredients</span>::<span class='ident'>amount</span>))
+                .<span class='ident'>load</span>(<span class='kw-2'>&amp;</span><span class='ident'>connection</span>)
+                .<span class='ident'>unwrap</span>();
+        <span class='kw'>for</span> <span class='ident'>ingredient</span> <span class='kw'>in</span> <span class='ident'>ings</span> {
+            <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;\t- {:?}&quot;</span>, <span class='ident'>ingredient</span>);
+        }
     }
 }
 </pre>

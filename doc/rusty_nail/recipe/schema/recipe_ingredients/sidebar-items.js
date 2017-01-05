@@ -1,1 +1,1 @@
-initSidebarItems({"constant":[["all_columns",""]],"mod":[["columns",""],["dsl",""]],"struct":[["amount",""],["id",""],["name",""],["recipe_id",""],["star",""],["table",""]],"type":[["BoxedQuery",""],["SqlType",""]]});
+initSidebarItems({"constant":[["all_columns",""]],"mod":[["columns",""],["dsl",""]],"struct":[["amount",""],["id",""],["ingredient_id",""],["recipe_id",""],["star",""],["table",""]],"type":[["BoxedQuery",""],["SqlType",""]]});

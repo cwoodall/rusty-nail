@@ -74,10 +74,37 @@
 <span id="29">29</span>
 <span id="30">30</span>
 <span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
 </pre><pre class='rust '>
+<span class='kw'>use</span> <span class='ident'>diesel</span>::<span class='ident'>prelude</span>::<span class='op'>*</span>;
 <span class='kw'>use</span> <span class='ident'>recipe</span>::<span class='ident'>schema</span>::<span class='op'>*</span>;
-
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Queryable</span>)]</span>
+<span class='attribute'>#[<span class='ident'>table_name</span><span class='op'>=</span><span class='string'>&quot;recipes&quot;</span>]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Queryable</span>, <span class='ident'>Identifiable</span>, <span class='ident'>Associations</span>, <span class='ident'>AsChangeset</span>)]</span>
+<span class='attribute'>#[<span class='ident'>has_many</span>(<span class='ident'>recipe_ingredients</span>, <span class='ident'>foreign_key</span><span class='op'>=</span><span class='string'>&quot;recipe_id&quot;</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Recipe</span> {
     <span class='kw'>pub</span> <span class='ident'>id</span>: <span class='ident'>i32</span>,
     <span class='kw'>pub</span> <span class='ident'>name</span>: <span class='ident'>String</span>,
@@ -91,20 +118,43 @@
     <span class='kw'>pub</span> <span class='ident'>description</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>,
 }
 
-<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Queryable</span>)]</span>
+<span class='attribute'>#[<span class='ident'>table_name</span><span class='op'>=</span><span class='string'>&quot;recipe_ingredients&quot;</span>]</span>
+<span class='attribute'>#[<span class='ident'>belongs_to</span>(<span class='ident'>Recipe</span>, <span class='ident'>foreign_key</span><span class='op'>=</span><span class='string'>&quot;recipe_id&quot;</span>)]</span>
+<span class='attribute'>#[<span class='ident'>belongs_to</span>(<span class='ident'>Ingredient</span>, <span class='ident'>foreign_key</span><span class='op'>=</span><span class='string'>&quot;ingredient_id&quot;</span>)]</span>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Queryable</span>, <span class='ident'>Identifiable</span>, <span class='ident'>Associations</span>, <span class='ident'>AsChangeset</span>)]</span>
 <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>RecipeIngredient</span> {
     <span class='kw'>pub</span> <span class='ident'>id</span>: <span class='ident'>i32</span>,
     <span class='kw'>pub</span> <span class='ident'>recipe_id</span>: <span class='ident'>i32</span>,
-    <span class='kw'>pub</span> <span class='ident'>name</span>: <span class='ident'>String</span>,
+    <span class='kw'>pub</span> <span class='ident'>ingredient_id</span>: <span class='ident'>i32</span>,
     <span class='kw'>pub</span> <span class='ident'>amount</span>: <span class='ident'>f32</span>,
 }
 
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Insertable</span>)]</span>
 <span class='attribute'>#[<span class='ident'>table_name</span><span class='op'>=</span><span class='string'>&quot;recipe_ingredients&quot;</span>]</span>
-<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>NewRecipeIngredient</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>NewRecipeIngredient</span> {
     <span class='kw'>pub</span> <span class='ident'>recipe_id</span>: <span class='ident'>i32</span>,
-    <span class='kw'>pub</span> <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>,
+    <span class='kw'>pub</span> <span class='ident'>ingredient_id</span>: <span class='ident'>i32</span>,
     <span class='kw'>pub</span> <span class='ident'>amount</span>: <span class='ident'>f32</span>,
+}
+
+
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>Queryable</span>, <span class='ident'>Identifiable</span>, <span class='ident'>Associations</span>, <span class='ident'>AsChangeset</span>)]</span>
+<span class='attribute'>#[<span class='ident'>has_many</span>(<span class='ident'>recipe_ingredients</span>, <span class='ident'>foreign_key</span><span class='op'>=</span><span class='string'>&quot;ingredient_id&quot;</span>)]</span>
+<span class='attribute'>#[<span class='ident'>table_name</span><span class='op'>=</span><span class='string'>&quot;ingredients&quot;</span>]</span>
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Ingredient</span> {
+    <span class='kw'>pub</span> <span class='ident'>id</span>: <span class='ident'>i32</span>,
+    <span class='kw'>pub</span> <span class='ident'>name</span>: <span class='ident'>String</span>,
+    <span class='kw'>pub</span> <span class='ident'>description</span>: <span class='ident'>String</span>,
+    <span class='kw'>pub</span> <span class='ident'>available</span>: <span class='ident'>i32</span>,
+}
+
+
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Insertable</span>)]</span>
+<span class='attribute'>#[<span class='ident'>table_name</span><span class='op'>=</span><span class='string'>&quot;ingredients&quot;</span>]</span>
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>NewIngredient</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
+    <span class='kw'>pub</span> <span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>,
+    <span class='kw'>pub</span> <span class='ident'>description</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>,
+    <span class='kw'>pub</span> <span class='ident'>available</span>: <span class='ident'>i32</span>,
 }
 </pre>
 </section>
