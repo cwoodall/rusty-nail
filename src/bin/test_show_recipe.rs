@@ -6,7 +6,6 @@ extern crate diesel_codegen;
 #[macro_use]
 extern crate diesel;
 
-use self::rusty_nail::*;
 use self::rusty_nail::recipe::*;
 use self::rusty_nail::recipe::models::*;
 use self::rusty_nail::recipe::schema::recipes::dsl as recipes;
@@ -15,11 +14,20 @@ use self::rusty_nail::recipe::schema::ingredients::dsl as ingredients;
 use self::diesel::prelude::*;
 
 #[derive(Debug, Queryable)]
-struct RecipeIngredientComplete {
+struct MixerIngredient {
+    pub id: i32,
     pub name: String,
     pub description: String,
-    pub available: i32,
+    pub available: bool,
     pub amount: f32,
+}
+
+#[derive(Debug)]
+struct MixerRecipe {
+    pub id: i32,
+    pub name: String,
+    pub description: String,
+    pub ingredients: Vec<MixerIngredient>,
 }
 
 fn main() {
@@ -30,20 +38,23 @@ fn main() {
 
 
     println!("Displaying {} recipes", results.len());
-    for recipe in results {
-        println!("{:?}", recipe);
 
-        let ings: Vec<RecipeIngredientComplete> =
-            ingredients::ingredients.inner_join(recipe_ingredients::recipe_ingredients)
+
+    for recipe in results {
+        let test: MixerRecipe = MixerRecipe {
+            id: recipe.id,
+            name: recipe.name,
+            description: recipe.description,
+            ingredients: ingredients::ingredients.inner_join(recipe_ingredients::recipe_ingredients)
                 .filter(recipe_ingredients::recipe_id.eq(recipe.id))
-                .select((ingredients::name,
+                .select((ingredients::id,
+                         ingredients::name,
                          ingredients::description,
                          ingredients::available,
                          recipe_ingredients::amount))
                 .load(&connection)
-                .unwrap();
-        for ingredient in ings {
-            println!("\t- {:?}", ingredient);
-        }
+                .unwrap(),
+        };
+        println!("{:?}", test);
     }
 }

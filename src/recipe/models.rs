@@ -1,5 +1,6 @@
 use diesel::prelude::*;
 use recipe::schema::*;
+
 #[table_name="recipes"]
 #[derive(Debug, Queryable, Identifiable, Associations, AsChangeset)]
 #[has_many(recipe_ingredients, foreign_key="recipe_id")]
@@ -43,7 +44,7 @@ pub struct Ingredient {
     pub id: i32,
     pub name: String,
     pub description: String,
-    pub available: i32,
+    pub available: bool,
 }
 
 
@@ -52,5 +53,5 @@ pub struct Ingredient {
 pub struct NewIngredient<'a> {
     pub name: &'a str,
     pub description: &'a str,
-    pub available: i32,
+    pub available: bool,
 }

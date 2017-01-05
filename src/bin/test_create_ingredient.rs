@@ -15,7 +15,7 @@ fn main() {
     let mut description = String::new();
     stdin().read_to_string(&mut description).unwrap();
 
-    let size = create_ingredient(&connection, name, &description, 1)
+    let size = create_ingredient(&connection, name, &description, true)
         .expect("Could not create recipe");
     println!("\nSaved ingredient {} with size {}", name, size);
 }

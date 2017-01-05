@@ -1,14 +1,16 @@
 CREATE TABLE recipes (
   id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   name VARCHAR NOT NULL,
-  description TEXT NOT NULL
+  description TEXT NOT NULL,
+  CONSTRAINT name_unique UNIQUE (name)
 );
 
 CREATE TABLE ingredients (
   id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
   name VARCHAR NOT NULL,
   description TEXT NOT NULL,
-  available INTEGER NOT NULL
+  available BOOLEAN NOT NULL,
+  CONSTRAINT name_unique UNIQUE (name)
 );
 
 CREATE TABLE recipe_ingredients (

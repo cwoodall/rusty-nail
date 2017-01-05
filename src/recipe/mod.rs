@@ -58,7 +58,7 @@ pub fn create_recipe_ingredients<'a>(conn: &SqliteConnection,
 pub fn create_ingredient<'a>(conn: &SqliteConnection,
                              name: &'a str,
                              description: &'a str,
-                             available: i32)
+                             available: bool)
                              -> Result<usize> {
     use self::schema::ingredients;
 
