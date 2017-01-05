@@ -8,7 +8,7 @@ use diesel::sqlite::SqliteConnection;
 use dotenv::dotenv;
 use std::env;
 
-use self::models::{Recipe, NewRecipe};
+use self::models::*;
 
 pub fn establish_connection() -> SqliteConnection {
     dotenv().ok();
@@ -32,6 +32,44 @@ pub fn create_recipe<'a>(conn: &SqliteConnection,
 
     let size = try!(diesel::insert(&new_recipe)
         .into(recipes::table)
+        .execute(conn));
+    Ok(size)
+}
+
+pub fn create_recipe_ingredients<'a>(conn: &SqliteConnection,
+                                     recipe_id: i32,
+                                     ingredient_id: i32,
+                                     amount: f32)
+                                     -> Result<usize> {
+    use self::schema::recipe_ingredients;
+
+    let new_ingrdient = NewRecipeIngredient {
+        recipe_id: recipe_id,
+        ingredient_id: ingredient_id,
+        amount: amount,
+    };
+
+    let size = try!(diesel::insert(&new_ingrdient)
+        .into(recipe_ingredients::table)
+        .execute(conn));
+    Ok(size)
+}
+
+pub fn create_ingredient<'a>(conn: &SqliteConnection,
+                             name: &'a str,
+                             description: &'a str,
+                             available: i32)
+                             -> Result<usize> {
+    use self::schema::ingredients;
+
+    let new_ingrdient = NewIngredient {
+        name: name,
+        description: description,
+        available: available,
+    };
+
+    let size = try!(diesel::insert(&new_ingrdient)
+        .into(ingredients::table)
         .execute(conn));
     Ok(size)
 }

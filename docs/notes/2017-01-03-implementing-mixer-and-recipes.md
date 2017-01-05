@@ -77,14 +77,31 @@ CREATE TABLE recipes (
   description TEXT NOT NULL
 );
 
+CREATE TABLE ingredients (
+  id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+  name VARCHAR NOT NULL,
+  description TEXT NOT NULL,
+  available BOOLEAN NOT NULL
+);
+
 CREATE TABLE recipe_ingredients (
   id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-  recipe_id INTEGER NOT NULL,
-  name VARCHAR NOT NULL,
+  recipe_id INTEGER NOT NULL REFERENCES recipes(id) ,
+  ingredient_id INTEGER NOT NULL REFERENCES ingredient(id) ,
   amount REAL NOT NULL
 );
 ```
 
+So we will have 3 tables in our database:
+
+- `recipes`: Which is what we are really interested in and contains a representation
+             of each individual recipe.
+- `ingredients`: Which contains a representation of the available ingredients
+                 (which can be mapped to dispensers).
+- `recipe_ingredients`: Which will be used to create a list of ingredients for a
+                        recipe and will be `JOIN`ed with `ingredients`.
+
+So basically to get a list of ingredients for a recipe
 and run the migration
 
 ```
