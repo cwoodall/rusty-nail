@@ -1,13 +1,15 @@
 extern crate rusty_nail;
 extern crate diesel;
 
+use self::rusty_nail::recipe::models::*;
+
 use self::rusty_nail::recipe::*;
 use std::io::{stdin, Read};
 
 fn main() {
     let connection = establish_connection();
 
-    println!("What is the Recipe?");
+    println!("What is the Ingredient?");
     let mut name = String::new();
     stdin().read_line(&mut name).unwrap();
     let name = &name[..(name.len() - 1)]; // Drop the newline character
@@ -15,7 +17,7 @@ fn main() {
     let mut description = String::new();
     stdin().read_to_string(&mut description).unwrap();
 
-    let size = create_ingredient(&connection, name, &description, true)
+    let size = Ingredient::create(&connection, name, &description, true)
         .expect("Could not create recipe");
     println!("\nSaved ingredient {} with size {}", name, size);
 }

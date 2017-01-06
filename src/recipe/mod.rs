@@ -1,5 +1,5 @@
 pub mod models;
-pub mod schema;
+mod schema;
 
 use super::errors::*;
 use diesel;
@@ -18,58 +18,10 @@ pub fn establish_connection() -> SqliteConnection {
         .expect(&format!("Error connecting to {}", database_url))
 }
 
-
-pub fn create_recipe<'a>(conn: &SqliteConnection,
-                         name: &'a str,
-                         description: &'a str)
-                         -> Result<usize> {
-    use self::schema::recipes;
-
-    let new_recipe = NewRecipe {
-        name: name,
-        description: description,
-    };
-
-    let size = try!(diesel::insert(&new_recipe)
-        .into(recipes::table)
-        .execute(conn));
-    Ok(size)
-}
-
-pub fn create_recipe_ingredients<'a>(conn: &SqliteConnection,
-                                     recipe_id: i32,
-                                     ingredient_id: i32,
-                                     amount: f32)
-                                     -> Result<usize> {
-    use self::schema::recipe_ingredients;
-
-    let new_ingrdient = NewRecipeIngredient {
-        recipe_id: recipe_id,
-        ingredient_id: ingredient_id,
-        amount: amount,
-    };
-
-    let size = try!(diesel::insert(&new_ingrdient)
-        .into(recipe_ingredients::table)
-        .execute(conn));
-    Ok(size)
-}
-
-pub fn create_ingredient<'a>(conn: &SqliteConnection,
-                             name: &'a str,
-                             description: &'a str,
-                             available: bool)
-                             -> Result<usize> {
-    use self::schema::ingredients;
-
-    let new_ingrdient = NewIngredient {
-        name: name,
-        description: description,
-        available: available,
-    };
-
-    let size = try!(diesel::insert(&new_ingrdient)
-        .into(ingredients::table)
-        .execute(conn));
-    Ok(size)
+#[derive(Debug)]
+pub struct MixerRecipe {
+    pub id: i32,
+    pub name: String,
+    pub description: String,
+    pub ingredients: Vec<JoinIngredient>,
 }

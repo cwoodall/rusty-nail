@@ -297,4 +297,5 @@ fn main() {
 }
 ```
 
-Now the next big step is searching for ingredients which are availables
+Now the next big step is searching for ingredients which are availables and
+encapsulating the states

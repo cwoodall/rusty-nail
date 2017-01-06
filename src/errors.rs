@@ -22,6 +22,12 @@ error_chain! {
 
         }
 
+        /// Datbase issue
+        CouldNotAddIngredient(iname: String, rname: String) {
+            description("The ingredient could not be added to recipe")
+            display("The ingredient {} could not be added to recipe {}.", iname, rname)
+        }
+
         /// Not enough liquid
         NotEnoughLiquid(level: f64) {
             description("There is not enough liquid in the current dispense")
