@@ -2,6 +2,7 @@ doc
 target
 site
 
+*.db
 
 docs/doc
 
