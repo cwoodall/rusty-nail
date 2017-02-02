@@ -33,5 +33,12 @@ error_chain! {
             description("There is not enough liquid in the current dispense")
             display("There is currently {} mL left in the dispenser, this is not enough.", level)
         }
+
+        /// Not enough liquid
+        DispenserNotFound {
+            description("Could not find dispense")
+            display("No dispenser found")
+        }
+
     }
 }

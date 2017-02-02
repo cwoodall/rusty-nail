@@ -53,7 +53,6 @@ pub struct Ingredient {
 
 #[derive(Debug, Queryable)]
 pub struct JoinIngredient {
-    pub id: i32,
     pub name: String,
     pub description: String,
     pub available: bool,
@@ -92,7 +91,7 @@ impl Recipe {
     }
 
     pub fn add_ingredient(&self, conn: &SqliteConnection, name: &str, amount: f32) -> Result<()> {
-        let ingredient = Ingredient::find(conn, name).expect("could not find ingredient");
+        let ingredient = try!(Ingredient::find(conn, name));
 
         let res = try!(RecipeIngredient::create(conn, self.id, ingredient.id, amount));
 
@@ -109,6 +108,19 @@ impl Recipe {
         Ok(())
     }
 
+    pub fn update_ingredients(&self,
+                              conn: &SqliteConnection,
+                              ingredients: &Vec<JoinIngredient>)
+                              -> Result<()> {
+        let recipe = try!(Recipe::find(conn, &self.name));
+        for ingredient in ingredients {
+            let ing = try!(Ingredient::find(conn, &ingredient.name));
+
+            try!(RecipeIngredient::create(conn, recipe.id, ing.id, ingredient.amount));
+        }
+        Ok(())
+    }
+
     pub fn all(conn: &SqliteConnection) -> Vec<Recipe> {
         recipes::table.load(conn).expect("Could not get recipes table")
     }
@@ -116,8 +128,7 @@ impl Recipe {
     pub fn get_ingredients(&self, conn: &SqliteConnection) -> Result<Vec<JoinIngredient>> {
         let a: Vec<JoinIngredient> = try!(ingredients::table.inner_join(recipe_ingredients::table)
             .filter(recipe_ingredients::dsl::recipe_id.eq(self.id))
-            .select((ingredients::dsl::id,
-                     ingredients::dsl::name,
+            .select((ingredients::dsl::name,
                      ingredients::dsl::description,
                      ingredients::dsl::available,
                      recipe_ingredients::dsl::amount))

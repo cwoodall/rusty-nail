@@ -2,6 +2,7 @@
 
 use errors::*;
 use dispenser::Dispenser;
+use recipe::MixerRecipe;
 use std::{collections, fmt};
 
 struct Mixer {
@@ -31,8 +32,12 @@ impl Mixer {
         self.dispensers.clear();
     }
 
-    fn get(&mut self, name: &str) -> Option<&Box<Dispenser>> {
-        self.dispensers.get(name)
+    fn get(&mut self, name: &str) -> Result<&Box<Dispenser>> {
+        self.dispensers.get(name).ok_or(ErrorKind::DispenserNotFound.into())
+    }
+
+    fn get_mut(&mut self, name: &str) -> Result<&mut Box<Dispenser>> {
+        self.dispensers.get_mut(name).ok_or(ErrorKind::DispenserNotFound.into())
     }
 
     ///
@@ -45,9 +50,18 @@ impl Mixer {
         self.dispensers.insert(String::from(name), dispenser);
     }
 
-    // fn make_recipe() {
-    //
-    // }
+    fn get_available(&mut self) -> Vec<&String> {
+        self.dispensers.iter().map(|(k, v)| k).collect::<Vec<_>>()
+    }
+
+    fn mix(&mut self, recipe: MixerRecipe, servings: f64) -> Result<()> {
+        for ingredient in recipe.ingredients {
+            let mut dispenser = try!(self.get_mut(&ingredient.name));
+            try!(dispenser.dispense(ingredient.amount as f64 * servings));
+        }
+
+        Ok(())
+    }
 }
 
 #[cfg(test)]

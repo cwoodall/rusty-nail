@@ -1,6 +1,5 @@
 #![crate_name = "rusty_nail"]
 #![warn(missing_docs)]
-#![feature(proc_macro)]
 #![feature(plugin)]
 
 #![plugin(diesel_codegen)]
