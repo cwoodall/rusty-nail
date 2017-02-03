@@ -41,7 +41,7 @@ pub struct NewRecipeIngredient {
 }
 
 
-#[derive(Debug, Queryable, Identifiable, Associations, AsChangeset)]
+#[derive(Deserialize, Serialize, Debug, Queryable, Identifiable, Associations, AsChangeset)]
 #[has_many(recipe_ingredients, foreign_key="ingredient_id")]
 #[table_name="ingredients"]
 pub struct Ingredient {
@@ -51,7 +51,7 @@ pub struct Ingredient {
     pub available: bool,
 }
 
-#[derive(Debug, Queryable)]
+#[derive(Deserialize, Serialize, Debug, Queryable)]
 pub struct JoinIngredient {
     pub name: String,
     pub description: String,
@@ -60,11 +60,11 @@ pub struct JoinIngredient {
 }
 
 
-#[derive(Insertable)]
+#[derive(Deserialize, Serialize, Insertable)]
 #[table_name="ingredients"]
-pub struct NewIngredient<'a> {
-    pub name: &'a str,
-    pub description: &'a str,
+pub struct NewIngredient {
+    pub name: String,
+    pub description: String,
     pub available: bool,
 }
 
@@ -165,8 +165,8 @@ impl Ingredient {
                       -> Result<usize> {
 
         let new_ingrdient = NewIngredient {
-            name: name,
-            description: description,
+            name: name.to_string(),
+            description: description.to_string(),
             available: available,
         };
 

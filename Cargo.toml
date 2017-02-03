@@ -10,5 +10,10 @@ error-chain = "0.7.2"
 diesel = "0.9.0"
 diesel_codegen = { version = "0.9.0", features = ["sqlite"] }
 dotenv = "0.8.0"
-rocket = "0.1.6"
-rocket_codegen = "0.1.6"
+rocket = { git="https://github.com/SergioBenitez/Rocket"}
+rocket_codegen = { git="https://github.com/SergioBenitez/Rocket"}
+rocket_contrib= { git="https://github.com/SergioBenitez/Rocket"}
+serde = "0.9"
+serde_derive = "0.9"
+# serde_json is just for the example, not required in general
+serde_json = "0.9"

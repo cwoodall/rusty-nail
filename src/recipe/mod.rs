@@ -18,7 +18,7 @@ pub fn establish_connection() -> SqliteConnection {
         .expect(&format!("Error connecting to {}", database_url))
 }
 
-#[derive(Debug)]
+#[derive(Deserialize, Serialize, Debug)]
 pub struct MixerRecipe {
     pub name: String,
     pub description: String,

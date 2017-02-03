@@ -40,5 +40,10 @@ error_chain! {
             display("No dispenser found")
         }
 
+        RecipeNotFound(rname: String) {
+            description("The recipe was not found")
+            display("The recipe {} does not exist.", rname)
+        }
+
     }
 }
