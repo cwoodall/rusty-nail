@@ -216,14 +216,21 @@ impl Ingredient {
         // Match against x.name which is an Option<T>
         match x.name {
             Some(name) => {
-                if (name != new_name) {
+                // If the name is the same as the old name then we don't need to perform this
+                // search.
+                if name != new_name {
+                    // Check if the named ingredient already exists. If it does return an Error
+                    // code.
                     try!(match Ingredient::find(conn, &name) {
                         Err(_) => Ok(0 as usize),
-                        Ok(_) => Err("wow"),
+                        Ok(_) => Err(format!("Ingredient {} already exists in the database", name)),
                     });
                 }
+                // To change the name we need to remove it and recreate it.
                 try!(diesel::delete(ingredients::table.filter(ingredients::dsl::name.eq(new_name)))
                         .execute(conn));
+
+                // Create and insert the new ingredient.
                 let new_ingredient = NewIngredient {
                     name: name.to_string(),
                     description: x.description.unwrap_or(self.description),
@@ -238,6 +245,7 @@ impl Ingredient {
             None => try!(diesel::update(ingredients::table).set(&x).execute(conn)),
         };
 
+        // Return the altered ingredient
         Ok(try!(Ingredient::find(conn, &new_name)))
     }
 
