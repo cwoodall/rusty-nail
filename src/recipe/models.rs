@@ -41,7 +41,7 @@ pub struct NewRecipeIngredient {
 }
 
 
-#[derive(Deserialize, Serialize, Debug, Queryable, Identifiable, Associations, AsChangeset)]
+#[derive(Deserialize, Serialize, Debug, Queryable, Insertable, Identifiable, Associations, AsChangeset)]
 #[has_many(recipe_ingredients, foreign_key="ingredient_id")]
 #[table_name="ingredients"]
 pub struct Ingredient {
@@ -231,7 +231,8 @@ impl Ingredient {
                         .execute(conn));
 
                 // Create and insert the new ingredient.
-                let new_ingredient = NewIngredient {
+                let new_ingredient = Ingredient {
+                    id: self.id,
                     name: name.to_string(),
                     description: x.description.unwrap_or(self.description),
                     available: x.available.unwrap_or(self.available),
