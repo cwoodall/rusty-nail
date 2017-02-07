@@ -7,12 +7,12 @@ authors = ["Christopher J. Woodall <chris.j.woodall@gmail.com>"]
 sysfs_gpio = "0.4"
 sysfs-pwm = "0.1.0"
 error-chain = "0.7.2"
-diesel = "0.9.0"
-diesel_codegen = { version = "0.9.0", features = ["sqlite"] }
+diesel = "0.10.0"
+diesel_codegen = { version = "0.10.0", features = ["sqlite"] }
 dotenv = "0.8.0"
-rocket = { git="https://github.com/SergioBenitez/Rocket"}
-rocket_codegen = { git="https://github.com/SergioBenitez/Rocket"}
-rocket_contrib= { git="https://github.com/SergioBenitez/Rocket"}
+rocket = "0.2.*"
+rocket_codegen = "0.2.*"
+rocket_contrib= "0.2.*"
 serde = "0.9"
 serde_derive = "0.9"
 # serde_json is just for the example, not required in general

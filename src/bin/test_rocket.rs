@@ -21,6 +21,11 @@ use self::rusty_nail::errors::*;
 use std::io::{stdin, Read};
 use rocket_contrib::JSON;
 
+fn replace_url_codes(s: String) -> String {
+    s.replace("%20", " ");
+    s
+}
+
 #[get("/recipes")]
 fn get_recipes() -> JSON<Vec<MixerRecipe>> {
     let connection = establish_connection();
@@ -31,9 +36,19 @@ fn get_recipes() -> JSON<Vec<MixerRecipe>> {
 #[get("/recipes/<name>")]
 fn get_recipe_by_name(name: String) -> Result<JSON<MixerRecipe>> {
     let connection = establish_connection();
-    let recipe_name = name.replace("%20", " ");
-    match MixerRecipe::find(&connection, &recipe_name) {
+    let name = replace_url_codes(name);
+    match MixerRecipe::find(&connection, &name) {
         Ok(recipe) => Ok(JSON(recipe)),
+        Err(_) => Err(ErrorKind::RecipeNotFound(name.to_string()).into()),
+    }
+}
+
+#[get("/ingredients/<name>")]
+fn get_ingredient_by_name(name: String) -> Result<JSON<Ingredient>> {
+    let connection = establish_connection();
+    let name = replace_url_codes(name);
+    match Ingredient::find(&connection, &name) {
+        Ok(ingredient) => Ok(JSON(ingredient)),
         Err(_) => Err(ErrorKind::RecipeNotFound(name.to_string()).into()),
     }
 }
@@ -55,9 +70,24 @@ fn post_new_ingredients(ingredient: JSON<NewIngredient>) -> Result<JSON<Ingredie
     Ok(JSON(try!(Ingredient::find(&connection, &ingredient.name))))
 }
 
+#[post("/ingredients/<name>",  data = "<ingredient>")]
+fn post_update_ingredients(name: String,
+                           ingredient: JSON<UpdateIngredient>)
+                           -> Result<JSON<Ingredient>> {
+    let connection = establish_connection();
+    let old_ingredient: Ingredient = try!(Ingredient::find(&connection, &name));
+    Ok(JSON(try!(old_ingredient.update(&connection, ingredient.into_inner()))))
+}
+
+
 fn main() {
     rocket::ignite()
         .mount("/api",
-               routes![get_ingredients, get_recipes, get_recipe_by_name, post_new_ingredients])
+               routes![get_ingredients,
+                       get_recipes,
+                       get_recipe_by_name,
+                       post_new_ingredients,
+                       get_ingredient_by_name,
+                       post_update_ingredients])
         .launch();
 }

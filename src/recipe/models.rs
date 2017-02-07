@@ -51,6 +51,15 @@ pub struct Ingredient {
     pub available: bool,
 }
 
+#[derive(Clone, Deserialize, Serialize, Debug, Identifiable,  AsChangeset)]
+#[table_name="ingredients"]
+pub struct UpdateIngredient {
+    pub id: Option<i32>,
+    pub name: Option<String>,
+    pub description: Option<String>,
+    pub available: Option<bool>,
+}
+
 #[derive(Deserialize, Serialize, Debug, Queryable)]
 pub struct JoinIngredient {
     pub name: String,
@@ -86,6 +95,12 @@ impl Recipe {
 
     pub fn find<'a>(conn: &SqliteConnection, name: &'a str) -> Result<Recipe> {
         recipes::table.filter(recipes::dsl::name.eq(name))
+            .first::<Recipe>(conn)
+            .map_err(|e| ErrorKind::DatabaseError(e).into())
+    }
+
+    pub fn find_by_id<'a>(conn: &SqliteConnection, id: i32) -> Result<Recipe> {
+        recipes::table.filter(recipes::dsl::id.eq(id))
             .first::<Recipe>(conn)
             .map_err(|e| ErrorKind::DatabaseError(e).into())
     }
@@ -176,6 +191,14 @@ impl Ingredient {
         Ok(size)
     }
 
+
+    pub fn find_by_id(conn: &SqliteConnection, id: i32) -> Result<Ingredient> {
+        ingredients::table.filter(ingredients::dsl::id.eq(id))
+            .first::<Ingredient>(conn)
+            .map_err(|e| ErrorKind::DatabaseError(e).into())
+    }
+
+
     pub fn find<'a>(conn: &SqliteConnection, name: &'a str) -> Result<Ingredient> {
         ingredients::table.filter(ingredients::dsl::name.eq(name))
             .first::<Ingredient>(conn)
@@ -184,6 +207,38 @@ impl Ingredient {
 
     pub fn all(conn: &SqliteConnection) -> Vec<Ingredient> {
         ingredients::table.load(conn).expect("Could not get ingredients table")
+    }
+
+    pub fn update(self, conn: &SqliteConnection, x: UpdateIngredient) -> Result<Ingredient> {
+        // What is the new name we are changing to? Default to keeping the name the same.
+        let mut new_name = self.name;
+
+        // Match against x.name which is an Option<T>
+        match x.name {
+            Some(name) => {
+                if (name != new_name) {
+                    try!(match Ingredient::find(conn, &name) {
+                        Err(_) => Ok(0 as usize),
+                        Ok(_) => Err("wow"),
+                    });
+                }
+                try!(diesel::delete(ingredients::table.filter(ingredients::dsl::name.eq(new_name)))
+                        .execute(conn));
+                let new_ingredient = NewIngredient {
+                    name: name.to_string(),
+                    description: x.description.unwrap_or(self.description),
+                    available: x.available.unwrap_or(self.available),
+                };
+                new_name = name.to_string();
+                try!(diesel::insert(&new_ingredient)
+                    .into(ingredients::table)
+                    .execute(conn))
+            }
+
+            None => try!(diesel::update(ingredients::table).set(&x).execute(conn)),
+        };
+
+        Ok(try!(Ingredient::find(conn, &new_name)))
     }
 
     pub fn get_recipes(&self, conn: &SqliteConnection) -> Vec<Recipe> {
