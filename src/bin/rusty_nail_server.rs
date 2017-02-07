@@ -21,6 +21,11 @@ use self::rusty_nail::errors::*;
 use std::io::{stdin, Read};
 use rocket_contrib::JSON;
 
+use std::io;
+use std::path::{Path, PathBuf};
+
+use rocket::response::NamedFile;
+
 fn replace_url_codes(s: String) -> String {
     s.replace("%20", " ");
     s
@@ -80,8 +85,14 @@ fn post_update_ingredients(name: String,
 }
 
 
+#[get("/")]
+fn index() -> io::Result<NamedFile> {
+    NamedFile::open("static/index.html")
+}
+
 fn main() {
     rocket::ignite()
+        .mount("/", routes![index])
         .mount("/api",
                routes![get_ingredients,
                        get_recipes,
